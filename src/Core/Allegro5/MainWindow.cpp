@@ -15,6 +15,7 @@
 #include <SparkyStudios/UI/Pixel/Core/MainWindow.h>
 
 #include <allegro5/allegro5.h>
+#include <allegro5/allegro_native_dialog.h>
 
 namespace SparkyStudios::UI::Pixel
 {
@@ -152,5 +153,81 @@ namespace SparkyStudios::UI::Pixel
     void MainWindow::SetCursorStyle(CursorStyle style)
     {
         _cursor->ApplyStyle(style);
+    }
+
+    PiString MainWindow::GetClipboardText() const
+    {
+        PiString str;
+
+        if (al_clipboard_has_text(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle)))
+        {
+            char* clip = al_get_clipboard_text(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle));
+
+            if (clip != nullptr)
+            {
+                str = clip;
+                al_free(clip);
+            }
+        }
+
+        return str;
+    }
+
+    bool MainWindow::SetClipboardText(const PiString& str)
+    {
+        return al_set_clipboard_text(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), str.c_str());
+    }
+
+    bool MainWindow::FileOpen(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut)
+    {
+        ALLEGRO_FILECHOOSER* chooser =
+            al_create_native_file_dialog(startPath.c_str(), name.c_str(), extension.c_str(), ALLEGRO_FILECHOOSER_FILE_MUST_EXIST);
+
+        if (al_show_native_file_dialog(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), chooser))
+        {
+            if (al_get_native_file_dialog_count(chooser) != 0)
+            {
+                filePathOut = al_get_native_file_dialog_path(chooser, 0);
+            }
+        }
+
+        al_destroy_native_file_dialog(chooser);
+        return true;
+    }
+
+    bool MainWindow::FileSave(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut)
+    {
+        ALLEGRO_FILECHOOSER* chooser =
+            al_create_native_file_dialog(startPath.c_str(), name.c_str(), extension.c_str(), ALLEGRO_FILECHOOSER_SAVE);
+
+        if (al_show_native_file_dialog(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), chooser))
+        {
+            if (al_get_native_file_dialog_count(chooser) != 0)
+            {
+                filePathOut = al_get_native_file_dialog_path(chooser, 0);
+            }
+        }
+
+        al_destroy_native_file_dialog(chooser);
+        return true;
+    }
+
+    bool MainWindow::FolderOpen(const PiString& name, const PiString& startPath, PiString& filePathOut)
+    {
+        ALLEGRO_FILECHOOSER* chooser = al_create_native_file_dialog(
+            startPath.c_str(), name.c_str(),
+            "*.*", // extension.c_str(),
+            ALLEGRO_FILECHOOSER_FOLDER);
+
+        if (al_show_native_file_dialog(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), chooser))
+        {
+            if (al_get_native_file_dialog_count(chooser) != 0)
+            {
+                filePathOut = al_get_native_file_dialog_path(chooser, 0);
+            }
+        }
+
+        al_destroy_native_file_dialog(chooser);
+        return true;
     }
 } // namespace SparkyStudios::UI::Pixel

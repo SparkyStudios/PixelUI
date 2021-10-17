@@ -64,6 +64,13 @@ namespace SparkyStudios::UI::Pixel
         Cursor* GetCursor() const;
         void SetCursorStyle(CursorStyle style);
 
+        PiString GetClipboardText() const;
+        bool SetClipboardText(const PiString& str);
+
+        bool FileOpen(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut);
+        bool FileSave(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut);
+        bool FolderOpen(const PiString& name, const PiString& startPath, PiString& filePathOut);
+
     private:
         PiVoidPtr _nativeHandle;
 
