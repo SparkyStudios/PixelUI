@@ -27,6 +27,8 @@ namespace SparkyStudios::UI::Pixel
     static ALLEGRO_DISPLAY* gDisplay = nullptr;
     static ALLEGRO_EVENT_QUEUE* gEventQueue = nullptr;
 
+    static PiString gAppResourcesDir = "resources";
+
     Application::~Application()
     {
         delete _mainWindow;
@@ -63,7 +65,11 @@ namespace SparkyStudios::UI::Pixel
             al_register_event_source(gEventQueue, al_get_mouse_event_source());
             al_register_event_source(gEventQueue, al_get_keyboard_event_source());
 
+            _paths = RelativeToExecutableResourcePaths(gAppResourcesDir);
+
             _mainWindow = mainWindow;
+            _mainWindow->InitRenderer(_paths);
+
             _initialized = true;
         }
 
@@ -76,14 +82,17 @@ namespace SparkyStudios::UI::Pixel
             return EXIT_FAILURE;
 
         ALLEGRO_EVENT ev;
-        bool haveQuit = false;
-        while (!haveQuit)
+        bool shouldQuit = false;
+        while (!shouldQuit)
         {
             while (al_get_next_event(gEventQueue, &ev))
             {
                 if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-                    haveQuit = true;
+                    shouldQuit = true;
             }
+
+            // Paint the main window
+            _mainWindow->Paint();
 
             al_rest(0.001);
         }
@@ -101,5 +110,15 @@ namespace SparkyStudios::UI::Pixel
     Application* Application::Instance()
     {
         return gApplication ? gApplication : gApplication = new Application();
+    }
+
+    void Application::SetAppResourcesDirectoryPath(const PiString& path)
+    {
+        gAppResourcesDir = path;
+    }
+
+    const PiString& Application::GetAppResourcesDirectoryPath()
+    {
+        return gAppResourcesDir;
     }
 } // namespace SparkyStudios::UI::Pixel

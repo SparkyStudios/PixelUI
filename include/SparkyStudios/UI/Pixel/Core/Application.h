@@ -18,6 +18,7 @@
 #define PIXEL_UI_APPLICATION_H
 
 #include <SparkyStudios/UI/Pixel/Core/MainWindow.h>
+#include <SparkyStudios/UI/Pixel/Core/Resource.h>
 
 /**
  * @brief The current instance of the Pixel application.
@@ -29,7 +30,27 @@ namespace SparkyStudios::UI::Pixel
     class PI_EXPORT Application
     {
     public:
+        /**
+         * @brief Get the application instance.
+         */
         static Application* Instance();
+
+        /**
+         * @brief Set the path to the application resources directory.
+         *
+         * This directory path is relative to the application executable path.
+         *
+         * @param path The path to the application resources directory.
+         */
+        static void SetAppResourcesDirectoryPath(const PiString& path);
+
+        /**
+         * @brief Get the path to the application resources directory.
+         *
+         * @return The path to the application resources directory
+         * relative to the executable path.
+         */
+        static const PiString& GetAppResourcesDirectoryPath();
 
         ~Application();
 
@@ -41,6 +62,7 @@ namespace SparkyStudios::UI::Pixel
 
         bool _initialized;
         MainWindow* _mainWindow;
+        RelativeToExecutableResourcePaths _paths;
     };
 } // namespace SparkyStudios::UI::Pixel
 

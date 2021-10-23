@@ -14,6 +14,8 @@
 
 #include <SparkyStudios/UI/Pixel/Core/MainWindow.h>
 
+#include <Core/Allegro5/Renderer/Renderer.h>
+
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_native_dialog.h>
 
@@ -79,6 +81,8 @@ namespace SparkyStudios::UI::Pixel
 
     MainWindow::~MainWindow()
     {
+        delete _renderer;
+
         al_destroy_display(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle));
     }
 
@@ -229,5 +233,21 @@ namespace SparkyStudios::UI::Pixel
 
         al_destroy_native_file_dialog(chooser);
         return true;
+    }
+
+    void MainWindow::InitRenderer(ResourcePaths& paths)
+    {
+        _renderer = new Renderer_Allegro(paths);
+    }
+
+    void MainWindow::Paint()
+    {
+        if (_renderer == nullptr)
+            return;
+
+        _renderer->BeginContext(this);
+        // TODO: Implement canvas drawing here
+        _renderer->PresentContext(this);
+        _renderer->EndContext(this);
     }
 } // namespace SparkyStudios::UI::Pixel

@@ -20,6 +20,8 @@
 #include <SparkyStudios/UI/Pixel/Config/Types.h>
 
 #include <SparkyStudios/UI/Pixel/Core/Input/Mouse.h>
+#include <SparkyStudios/UI/Pixel/Core/Renderer/BaseRenderer.h>
+#include <SparkyStudios/UI/Pixel/Core/Resource.h>
 
 #include <SparkyStudios/UI/Pixel/Graphics/Point.h>
 #include <SparkyStudios/UI/Pixel/Graphics/Rect.h>
@@ -38,6 +40,8 @@ namespace SparkyStudios::UI::Pixel
 
     class PI_EXPORT MainWindow
     {
+        friend class Application;
+
     public:
         MainWindow(PiInt32 x, PiInt32 y, PiUInt32 width, PiUInt32 height, PiString title, int flags);
         MainWindow(PiUInt32 width, PiUInt32 height, PiString title, int flags);
@@ -72,7 +76,12 @@ namespace SparkyStudios::UI::Pixel
         bool FolderOpen(const PiString& name, const PiString& startPath, PiString& filePathOut);
 
     private:
+        void InitRenderer(ResourcePaths& paths);
+        void Paint();
+
         PiVoidPtr _nativeHandle;
+
+        BaseRenderer* _renderer;
 
         Cursor* _cursor;
         Point _position;
