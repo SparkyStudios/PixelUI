@@ -28,16 +28,6 @@ namespace SparkyStudios::UI::Pixel
     {
         typedef std::list<Texture*> List;
 
-        //! Status of load operation.
-        enum class Status
-        {
-            Unloaded,
-            Loaded,
-            ErrorFileNotFound,
-            ErrorBadData,
-            MAX
-        };
-
         Texture()
             : readable(false)
         {}

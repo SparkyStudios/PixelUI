@@ -27,15 +27,6 @@ namespace SparkyStudios::UI::Pixel
     {
         typedef std::list<Font*> List;
 
-        enum class Status
-        {
-            Unloaded,
-            Loaded,
-            ErrorFileNotFound,
-            ErrorBadData,
-            MAX
-        };
-
         enum class Weight
         {
             Lighter,
