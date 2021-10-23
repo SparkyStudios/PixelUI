@@ -68,7 +68,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return Path relative to the resource directory.
          */
-        virtual PiString GetPath(Type type, const PiString& name) = 0;
+        virtual PiString GetPath(Type type, const PiString& name) const = 0;
     };
 
     /**
@@ -84,7 +84,7 @@ namespace SparkyStudios::UI::Pixel
          */
         explicit RelativeToExecutableResourcePaths(const PiString& resourceDir = PiString());
 
-        PiString GetPath(Type type, const PiString& name) final;
+        PiString GetPath(Type type, const PiString& name) const final;
 
     private:
         PiString _resDir;

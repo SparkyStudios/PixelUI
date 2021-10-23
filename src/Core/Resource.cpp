@@ -21,7 +21,7 @@ namespace SparkyStudios::UI::Pixel
         : _resDir(Platform::GetExecutableDir() + resourceDir)
     {}
 
-    PiString RelativeToExecutableResourcePaths::GetPath(Type type, const PiString& name)
+    PiString RelativeToExecutableResourcePaths::GetPath(Type type, const PiString& name) const
     {
         PiString filePath(_resDir + name);
 
