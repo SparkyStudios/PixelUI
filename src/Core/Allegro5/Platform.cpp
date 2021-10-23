@@ -32,6 +32,9 @@ namespace SparkyStudios::UI::Pixel
 
         PI_EXPORT PiString GetExecutableDir()
         {
+            if (!al_is_system_installed())
+                return "";
+
             ALLEGRO_PATH* path = al_get_standard_path(ALLEGRO_EXENAME_PATH);
             al_set_path_filename(path, NULL);
             const PiString dir(al_path_cstr(path, ALLEGRO_NATIVE_PATH_SEP));
