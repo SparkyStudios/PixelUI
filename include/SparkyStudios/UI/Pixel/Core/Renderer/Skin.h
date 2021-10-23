@@ -76,6 +76,13 @@ namespace SparkyStudios::UI::Pixel
         ~Skin();
 
         /**
+         * @brief Set the skin mode.
+         *
+         * @param mode The skin mode.
+         */
+        void SetMode(Mode mode);
+
+        /**
          * @brief Releases a loaded font from the renderer.
          *
          * @param font The font to release.

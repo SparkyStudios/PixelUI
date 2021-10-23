@@ -50,6 +50,11 @@ namespace SparkyStudios::UI::Pixel
         ReleaseFont(&m_defaultFont);
     }
 
+    void Skin::SetMode(Mode mode)
+    {
+        m_skinMode = mode;
+    }
+
     void Skin::ReleaseFont(Font* font)
     {
         if (font != nullptr && m_renderer != nullptr)
