@@ -27,6 +27,13 @@ namespace SparkyStudios::UI::Pixel
     static ALLEGRO_DISPLAY* gDisplay = nullptr;
     static ALLEGRO_EVENT_QUEUE* gEventQueue = nullptr;
 
+    Application::~Application()
+    {
+        delete _mainWindow;
+
+        al_destroy_event_queue(gEventQueue);
+    }
+
     bool Application::Init(MainWindow* mainWindow)
     {
         if (!_initialized)
@@ -80,6 +87,8 @@ namespace SparkyStudios::UI::Pixel
 
             al_rest(0.001);
         }
+
+        delete this;
 
         return EXIT_SUCCESS;
     }

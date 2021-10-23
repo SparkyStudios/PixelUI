@@ -31,6 +31,8 @@ namespace SparkyStudios::UI::Pixel
     public:
         static Application* Instance();
 
+        ~Application();
+
         bool Init(MainWindow* mainWindow);
         int Run();
 
