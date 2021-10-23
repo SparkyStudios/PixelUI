@@ -20,6 +20,8 @@
 #include <SparkyStudios/UI/Pixel/Core/MainWindow.h>
 #include <SparkyStudios/UI/Pixel/Core/Resource.h>
 
+#include <SparkyStudios/UI/Pixel/Core/Renderer/Skin.h>
+
 /**
  * @brief The current instance of the Pixel application.
  */
@@ -54,8 +56,31 @@ namespace SparkyStudios::UI::Pixel
 
         ~Application();
 
+        /**
+         * @brief Initializes the application with the given main window.
+         *
+         * @param mainWindow The application main window.
+         *
+         * @return Whether the initialization was successful.
+         */
         bool Init(MainWindow* mainWindow);
+
+        /**
+         * @brief Starts and runs the application.
+         *
+         * This method will block until the application has finished running
+         * (the main window has been closed).
+         *
+         * @return int The exit code of the application.
+         */
         int Run();
+
+        /**
+         * @brief Get the application skin.
+         *
+         * @return The application skin.
+         */
+        Skin* GetSkin() const;
 
     private:
         Application();
@@ -63,6 +88,9 @@ namespace SparkyStudios::UI::Pixel
         bool _initialized;
         MainWindow* _mainWindow;
         RelativeToExecutableResourcePaths _paths;
+
+        Skin* _skin;
+        BaseRenderer* _renderer;
     };
 } // namespace SparkyStudios::UI::Pixel
 

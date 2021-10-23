@@ -14,6 +14,8 @@
 
 #include <SparkyStudios/UI/Pixel/Core/Application.h>
 
+#include <Core/Allegro5/Renderer/Renderer.h>
+
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
@@ -31,6 +33,9 @@ namespace SparkyStudios::UI::Pixel
 
     Application::~Application()
     {
+        delete _skin;
+        delete _renderer;
+
         delete _mainWindow;
 
         al_destroy_event_queue(gEventQueue);
@@ -67,8 +72,10 @@ namespace SparkyStudios::UI::Pixel
 
             _paths = RelativeToExecutableResourcePaths(gAppResourcesDir);
 
+            _renderer = new Renderer_Allegro(_paths);
+            _skin = new Skin(Skin::Mode::Colored, _renderer);
+
             _mainWindow = mainWindow;
-            _mainWindow->InitRenderer(_paths);
 
             _initialized = true;
         }
@@ -92,7 +99,7 @@ namespace SparkyStudios::UI::Pixel
             }
 
             // Paint the main window
-            _mainWindow->Paint();
+            _mainWindow->Paint(_skin);
 
             al_rest(0.001);
         }
@@ -105,6 +112,9 @@ namespace SparkyStudios::UI::Pixel
     Application::Application()
         : _initialized(false)
         , _mainWindow(nullptr)
+        , _paths()
+        , _skin(nullptr)
+        , _renderer(nullptr)
     {}
 
     Application* Application::Instance()

@@ -20,7 +20,7 @@
 #include <SparkyStudios/UI/Pixel/Config/Types.h>
 
 #include <SparkyStudios/UI/Pixel/Core/Input/Mouse.h>
-#include <SparkyStudios/UI/Pixel/Core/Renderer/BaseRenderer.h>
+#include <SparkyStudios/UI/Pixel/Core/Renderer/Skin.h>
 #include <SparkyStudios/UI/Pixel/Core/Resource.h>
 
 #include <SparkyStudios/UI/Pixel/Graphics/Point.h>
@@ -76,12 +76,9 @@ namespace SparkyStudios::UI::Pixel
         bool FolderOpen(const PiString& name, const PiString& startPath, PiString& filePathOut);
 
     private:
-        void InitRenderer(ResourcePaths& paths);
-        void Paint();
+        void Paint(Skin* skin);
 
         PiVoidPtr _nativeHandle;
-
-        BaseRenderer* _renderer;
 
         Cursor* _cursor;
         Point _position;
