@@ -60,4 +60,31 @@
 #define PI_WCHAR_SUPPORTED
 #endif
 
+// PI_ASSERT Config
+#ifdef PI_NO_ASSERTS
+#define PI_ASSERT(x)
+#else
+#ifdef _MSC_VER
+#include <cstdio> // for sprintf in asserts
+#ifndef VC_EXTRALEAN
+#define VC_EXTRALEAN
+#endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#include <Windows.h> // only needed for OutputDebugStringA, should be solved somehow.
+#define PI_ASSERT(x)                                                                                                                       \
+    if (!(x))                                                                                                                              \
+    {                                                                                                                                      \
+        char temp[200];                                                                                                                    \
+        sprintf(temp, "%s(%d): assert(%s) failed.\n", __FILE__, __LINE__, #x);                                                             \
+        OutputDebugStringA(temp);                                                                                                          \
+        __debugbreak();                                                                                                                    \
+    }
+#else
+#include <cassert> // assert
+#define PI_ASSERT(x) assert(x)
+#endif
+#endif
+
 #endif // PIXEL_UI_CONFIG_H
