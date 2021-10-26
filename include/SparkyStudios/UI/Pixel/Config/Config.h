@@ -55,9 +55,19 @@
 // Enable animation functions.
 #define PI_ANIMATE 1
 
-// Check if wchar_t is supported
-#if defined(_WIN32) || defined(_WIN64) || defined(WINAPI_FAMILY) || defined(__linux__)
+// Platform detection
+#if defined(_WIN32) || defined(_WIN64) || defined(WINAPI_FAMILY)
+#define PI_WINDOWS
 #define PI_WCHAR_SUPPORTED
+#elif defined(__linux__)
+#define PI_LINUX
+#endif
+
+// PI_NATIVE_PATH_SEP
+#if defined(PI_WINDOWS)
+#define PI_NATIVE_PATH_SEP '\\'
+#elif defined(PI_LINUX)
+#define PI_NATIVE_PATH_SEP '/'
 #endif
 
 // PI_ASSERT Config
