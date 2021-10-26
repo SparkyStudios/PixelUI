@@ -57,6 +57,10 @@ namespace SparkyStudios::UI::Pixel
      */
     struct EventInfo
     {
+        explicit EventInfo(Widget* widget = nullptr)
+            : source(widget)
+        {}
+
         /**
          * @brief The event source.
          *
@@ -83,6 +87,7 @@ namespace SparkyStudios::UI::Pixel
     };
 
     typedef std::function<void(EventHandler&, EventInfo)> EventCallback;
+    typedef void (EventHandler::*EventListenerMethod)(EventInfo info);
 
     /**
      * @brief Event listener.
