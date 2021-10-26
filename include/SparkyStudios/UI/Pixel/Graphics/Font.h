@@ -45,6 +45,13 @@ namespace SparkyStudios::UI::Pixel
             Italic,
         };
 
+        Font(const PiString& name, PiUInt32 size, Weight weight, Style style)
+            : facename(name)
+            , size(size)
+            , weight(weight)
+            , style(style)
+        {}
+
         Font()
             : facename("?")
             , size(10)
