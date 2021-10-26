@@ -134,13 +134,13 @@ namespace SparkyStudios::UI::Pixel
         DrawFilledRect(Rect(position.x, position.y, 1, 1));
     }
 
-    void BaseRenderer::DrawShavedCornerRect(Rect rect, bool bSlight)
+    void BaseRenderer::DrawShavedCornerRect(Rect rect, bool slight)
     {
         // Draw INSIDE the w/h.
         rect.w -= 1;
         rect.h -= 1;
 
-        if (bSlight)
+        if (slight)
         {
             DrawFilledRect(Rect(rect.x + 1, rect.y, rect.w - 1, 1));
             DrawFilledRect(Rect(rect.x + 1, rect.y + rect.h, rect.w - 1, 1));
@@ -162,16 +162,16 @@ namespace SparkyStudios::UI::Pixel
 
     void BaseRenderer::DrawString(const Font& font, Point pos, const PiString& text)
     {
-        const float fSize = font.size * GetScale();
+        const PiReal32 size = font.size * GetScale();
 
-        for (unsigned int i = 0; i < text.length(); i++)
+        for (PiUInt32 i = 0; i < text.length(); i++)
         {
             char chr = text[i];
 
             if (chr == ' ')
                 continue;
 
-            Rect r(pos.x + i * fSize * 0.4f, pos.y, fSize * 0.4f - 1.0f, fSize);
+            Rect r(pos.x + i * size * 0.4f, pos.y, size * 0.4f - 1.0f, size);
 
             // This isn't important, it's just me messing around changing
             // the shape of the rect based on the letter.. just for fun.
@@ -181,8 +181,8 @@ namespace SparkyStudios::UI::Pixel
             }
             else if (chr >= 'a' && chr <= 'z')
             {
-                r.y += fSize * 0.5f;
-                r.h -= fSize * 0.4f;
+                r.y += size * 0.5f;
+                r.h -= size * 0.4f;
             }
             else if (chr == '.' || chr == ',')
             {
@@ -213,19 +213,19 @@ namespace SparkyStudios::UI::Pixel
         return p;
     }
 
-    void BaseRenderer::Translate(int& x, int& y)
+    void BaseRenderer::Translate(PiInt32& x, PiInt32& y)
     {
         x += _renderOffset.x;
         y += _renderOffset.y;
-        x = std::ceil(float(x) * m_scale);
-        y = std::ceil(float(y) * m_scale);
+        x = std::ceil(static_cast<PiReal32>(x) * m_scale);
+        y = std::ceil(static_cast<PiReal32>(y) * m_scale);
     }
 
     void BaseRenderer::Translate(Rect& rect)
     {
         Translate(rect.x, rect.y);
-        rect.w = std::ceil(float(rect.w) * m_scale);
-        rect.h = std::ceil(float(rect.h) * m_scale);
+        rect.w = std::ceil(static_cast<PiReal32>(rect.w) * m_scale);
+        rect.h = std::ceil(static_cast<PiReal32>(rect.h) * m_scale);
     }
 
     void BaseRenderer::SetRenderOffset(const Point& offset)

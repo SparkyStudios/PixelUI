@@ -41,11 +41,11 @@ namespace SparkyStudios::UI::Pixel
 
         virtual void Initialize() = 0;
         virtual void ShutDown() = 0;
-        virtual void SetupCacheTexture(CacheHandle control) = 0;
-        virtual void FinishCacheTexture(CacheHandle control) = 0;
-        virtual void DrawCachedControlTexture(CacheHandle control) = 0;
-        virtual void CreateControlCacheTexture(CacheHandle control, const Point& size) = 0;
-        virtual void UpdateControlCacheTexture(CacheHandle control) = 0;
+        virtual void SetupCacheTexture(CacheHandle widget) = 0;
+        virtual void FinishCacheTexture(CacheHandle widget) = 0;
+        virtual void DrawCachedWidgetTexture(CacheHandle widget) = 0;
+        virtual void CreateWidgetCacheTexture(CacheHandle widget, const Point& size) = 0;
+        virtual void UpdateWidgetCacheTexture(CacheHandle widget) = 0;
         virtual void SetRenderer(BaseRenderer* renderer) = 0;
     };
 
@@ -61,7 +61,7 @@ namespace SparkyStudios::UI::Pixel
          * @param paths The resources path manager to use in this
          * renderer.
          */
-        BaseRenderer(ResourcePaths& paths);
+        explicit BaseRenderer(ResourcePaths& paths);
 
     public:
         virtual ~BaseRenderer();
@@ -97,7 +97,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return ResourcePaths&
          */
-        const ResourcePaths& GetResourcePaths() const;
+        [[nodiscard]] const ResourcePaths& GetResourcePaths() const;
 
         /**
          * @brief Sets the color of next draw operations.
@@ -143,7 +143,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The clip region.
          */
-        const Rect& ClipRegion() const;
+        [[nodiscard]] const Rect& ClipRegion() const;
 
         /**
          * @brief Gets the color of the pixel at the given position.
@@ -201,9 +201,9 @@ namespace SparkyStudios::UI::Pixel
          * @brief Draws a rectangle with shaved corners.
          *
          * @param rect The target space to draw into.
-         * @param bSlight
+         * @param slight
          */
-        virtual void DrawShavedCornerRect(Rect rect, bool bSlight = false);
+        virtual void DrawShavedCornerRect(Rect rect, bool slight = false);
 
         /**
          * @brief Draws a text with the given font at the given position.
@@ -230,7 +230,7 @@ namespace SparkyStudios::UI::Pixel
          * @param x The x coordinate.
          * @param y The y coordinate.
          */
-        void Translate(int& x, int& y);
+        void Translate(PiInt32& x, PiInt32& y);
 
         /**
          * @brief Converts a rectangle in pixels to render space coordinates.
@@ -258,7 +258,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The current render offset.
          */
-        const Point& GetRenderOffset() const;
+        [[nodiscard]] const Point& GetRenderOffset() const;
 
         /**
          * @brief Sets the UI scale factor.
@@ -272,7 +272,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The scale factor.
          */
-        PiReal32 GetScale() const;
+        [[nodiscard]] PiReal32 GetScale() const;
 
         /**
          * @brief Initializes the rendering context.
