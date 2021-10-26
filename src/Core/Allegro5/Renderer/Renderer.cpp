@@ -61,7 +61,7 @@ namespace SparkyStudios::UI::Pixel
         _renderer = renderer;
     }
 
-    void CacheToTexture_Allegro::DrawCachedControlTexture(CacheHandle control)
+    void CacheToTexture_Allegro::DrawCachedWidgetTexture(CacheHandle control)
     {
         CacheMap::iterator it = _cache.find(control);
         PI_ASSERT(it != _cache.end());
@@ -74,7 +74,7 @@ namespace SparkyStudios::UI::Pixel
         }
     }
 
-    void CacheToTexture_Allegro::CreateControlCacheTexture(CacheHandle control, const Point& size)
+    void CacheToTexture_Allegro::CreateWidgetCacheTexture(CacheHandle control, const Point& size)
     {
         // If we haven't seen this control before, create a new one
         if (_cache.find(control) == _cache.end())
@@ -85,7 +85,7 @@ namespace SparkyStudios::UI::Pixel
         }
     }
 
-    void CacheToTexture_Allegro::UpdateControlCacheTexture(CacheHandle control)
+    void CacheToTexture_Allegro::UpdateWidgetCacheTexture(CacheHandle control)
     {}
 
     Renderer_Allegro::Renderer_Allegro(ResourcePaths& paths)
@@ -206,7 +206,7 @@ namespace SparkyStudios::UI::Pixel
 #undef ADD_LINE
     }
 
-    void Renderer_Allegro::DrawText(const Font& font, Point pos, const PiString& text)
+    void Renderer_Allegro::DrawString(const Font& font, Point pos, const PiString& text)
     {
         if (!EnsureFont(font))
             return;
@@ -224,15 +224,15 @@ namespace SparkyStudios::UI::Pixel
     Size Renderer_Allegro::MeasureText(const Font& font, const PiString& text)
     {
         if (!EnsureFont(font))
-            return { 0, 0 };
+            return Size(0, 0);
 
         auto it = _fonts.find(font);
         if (it == _fonts.end())
-            return { 0, 0 };
+            return Size(0, 0);
 
         FontData_Allegro& data = it->second;
 
-        return { al_get_text_width(data.font.get(), text.c_str()), al_get_font_line_height(data.font.get()) };
+        return Size(al_get_text_width(data.font.get(), text.c_str()), al_get_font_line_height(data.font.get()));
     }
 
     bool Renderer_Allegro::InitializeContext(MainWindow* window)

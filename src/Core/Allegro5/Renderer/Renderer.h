@@ -52,9 +52,9 @@ namespace SparkyStudios::UI::Pixel
 
         void SetRenderer(BaseRenderer* renderer) override;
 
-        void DrawCachedControlTexture(CacheHandle control) override;
-        void CreateControlCacheTexture(CacheHandle control, const Point& size) override;
-        void UpdateControlCacheTexture(CacheHandle control) override;
+        void DrawCachedWidgetTexture(CacheHandle control) override;
+        void CreateWidgetCacheTexture(CacheHandle control, const Point& size) override;
+        void UpdateWidgetCacheTexture(CacheHandle control) override;
 
         // TODO: Why destroys the cached textures? Does this assume they always exist?
 
@@ -129,7 +129,7 @@ namespace SparkyStudios::UI::Pixel
 
         void DrawShavedCornerRect(Rect rect, bool bSlight = false) override;
 
-        void DrawText(const Font& font, Point pos, const PiString& text) override;
+        void DrawString(const Font& font, Point pos, const PiString& text) override;
 
         Size MeasureText(const Font& font, const PiString& text) override;
 
