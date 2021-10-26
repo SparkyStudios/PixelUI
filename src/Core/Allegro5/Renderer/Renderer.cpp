@@ -132,11 +132,11 @@ namespace SparkyStudios::UI::Pixel
         return c;
     }
 
-    void Renderer_Allegro::DrawFilledRect(Rect rect)
+    void Renderer_Allegro::DrawFilledRect(Rect rect, const Size& radii)
     {
         Translate(rect);
         const PiReal32 fx = rect.x + 0.5f, fy = rect.y + 0.5f;
-        al_draw_filled_rectangle(fx, fy, fx + rect.w, fy + rect.h, _color);
+        al_draw_filled_rounded_rectangle(fx, fy, fx + rect.w, fy + rect.h, radii.x, radii.y, _color);
     }
 
     void Renderer_Allegro::DrawTexturedRect(const Texture& texture, Rect rect, PiReal32 u1, PiReal32 v1, PiReal32 u2, PiReal32 v2)
@@ -162,14 +162,14 @@ namespace SparkyStudios::UI::Pixel
         );
     }
 
-    void Renderer_Allegro::DrawLinedRect(Rect rect)
+    void Renderer_Allegro::DrawLinedRect(Rect rect, PiUInt32 thickness, const Size& radii)
     {
         Translate(rect);
         const PiReal32 fx = rect.x + 0.5f, fy = rect.y + 0.5f;
-        al_draw_rectangle(fx, fy, fx + rect.w, fy + rect.h, _color, 0.0f);
+        al_draw_rounded_rectangle(fx, fy, fx + rect.w, fy + rect.h, radii.x, radii.y, _color, thickness);
     }
 
-    void Renderer_Allegro::DrawShavedCornerRect(Rect rect, bool bSlight)
+    void Renderer_Allegro::DrawShavedCornerRect(Rect rect, bool slight)
     {
         // Draw INSIDE the w/h.
         rect.w -= 1;
@@ -183,7 +183,7 @@ namespace SparkyStudios::UI::Pixel
         const PiReal32 fx = rect.x + 0.5f, fy = rect.y + 0.5f;
         const PiReal32 fw = rect.w, fh = rect.h;
 
-        if (bSlight)
+        if (slight)
         {
             ALLEGRO_VERTEX vtx[4 * 2];
             ADD_LINE(0, fx + 1.f, fy, fx + fw - 1.f, fy); // top

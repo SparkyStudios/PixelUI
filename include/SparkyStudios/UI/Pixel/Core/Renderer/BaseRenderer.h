@@ -167,8 +167,9 @@ namespace SparkyStudios::UI::Pixel
          * @brief Draws a rectangle filled with the drawing color.
          *
          * @param rect The target space to draw into.
+         * @param radii The radius of the rectangle.
          */
-        virtual void DrawFilledRect(Rect rect);
+        virtual void DrawFilledRect(Rect rect, const Size& radii);
 
         /**
          * @brief Draws a texture.
@@ -179,16 +180,18 @@ namespace SparkyStudios::UI::Pixel
          * @param v1 The Y-axis upper left coordinate inside the texture.
          * @param u2 The X-axis lower right coordinate inside the texture.
          * @param v2 The Y-axis lower right coordinate inside the texture.
+         * @param radii The radius of the rectangle.
          */
-        virtual void DrawTexturedRect(
-            const Texture& texture, Rect rect, PiReal32 u1 = 0.0f, PiReal32 v1 = 0.0f, PiReal32 u2 = 1.0f, PiReal32 v2 = 1.0f);
+        virtual void DrawTexturedRect(const Texture& texture, Rect rect, PiReal32 u1, PiReal32 v1, PiReal32 u2, PiReal32 v2);
 
         /**
          * @brief Draws a transparent rectangle with borders of width 1.
          *
          * @param rect The target space to draw into.
+         * @param thickness The width of the rectangle borders.
+         * @param radii The radius of the rectangle.
          */
-        virtual void DrawLinedRect(Rect rect);
+        virtual void DrawLinedRect(Rect rect, PiUInt32 thickness, const Size& radii);
 
         /**
          * @brief Draws a single pixel with the drawing color.

@@ -120,12 +120,12 @@ namespace SparkyStudios::UI::Pixel
 
         Color PixelColor(const Texture& texture, const Point& position, const Color& defaultColor = Colors::White) override;
 
-        void DrawFilledRect(Rect rect) override;
+        void DrawFilledRect(Rect rect, const Size& radii = Size(0, 0)) override;
 
         void DrawTexturedRect(
             const Texture& texture, Rect rect, PiReal32 u1 = 0.0f, PiReal32 v1 = 0.0f, PiReal32 u2 = 1.0f, PiReal32 v2 = 1.0f) override;
 
-        void DrawLinedRect(Rect rect) override;
+        void DrawLinedRect(Rect rect, PiUInt32 thickness = 0.0f, const Size& radii = Size(0, 0)) override;
 
         void DrawShavedCornerRect(Rect rect, bool bSlight = false) override;
 

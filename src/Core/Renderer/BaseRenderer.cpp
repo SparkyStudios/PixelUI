@@ -112,40 +112,42 @@ namespace SparkyStudios::UI::Pixel
     void BaseRenderer::DrawMissingImage(Rect rect)
     {
         SetDrawColor(Colors::Red);
-        DrawFilledRect(rect);
+        DrawFilledRect(rect, Size(0, 0));
     }
 
-    void BaseRenderer::DrawFilledRect(Rect rect)
+    void BaseRenderer::DrawFilledRect(Rect rect, const Size& radii)
     {}
 
     void BaseRenderer::DrawTexturedRect(const Texture& texture, Rect rect, PiReal32 u1, PiReal32 v1, PiReal32 u2, PiReal32 v2)
     {}
 
-    void BaseRenderer::DrawLinedRect(Rect rect)
+    void BaseRenderer::DrawLinedRect(Rect rect, PiUInt32 thickness, const Size& radii)
     {
-        DrawFilledRect(Rect(rect.x, rect.y, rect.w, 1));
-        DrawFilledRect(Rect(rect.x, rect.y + rect.h - 1, rect.w, 1));
-        DrawFilledRect(Rect(rect.x, rect.y, 1, rect.h));
-        DrawFilledRect(Rect(rect.x + rect.w - 1, rect.y, 1, rect.h));
+        DrawFilledRect(Rect(rect.x, rect.y, rect.w, 1), radii);
+        DrawFilledRect(Rect(rect.x, rect.y + rect.h - 1, rect.w, 1), radii);
+        DrawFilledRect(Rect(rect.x, rect.y, 1, rect.h), radii);
+        DrawFilledRect(Rect(rect.x + rect.w - 1, rect.y, 1, rect.h), radii);
     }
 
     void BaseRenderer::DrawPixel(const Point& position)
     {
-        DrawFilledRect(Rect(position.x, position.y, 1, 1));
+        DrawFilledRect(Rect(position.x, position.y, 1, 1), Size(0, 0));
     }
 
     void BaseRenderer::DrawShavedCornerRect(Rect rect, bool slight)
     {
+        const auto radii = Size(0, 0);
+
         // Draw INSIDE the w/h.
         rect.w -= 1;
         rect.h -= 1;
 
         if (slight)
         {
-            DrawFilledRect(Rect(rect.x + 1, rect.y, rect.w - 1, 1));
-            DrawFilledRect(Rect(rect.x + 1, rect.y + rect.h, rect.w - 1, 1));
-            DrawFilledRect(Rect(rect.x, rect.y + 1, 1, rect.h - 1));
-            DrawFilledRect(Rect(rect.x + rect.w, rect.y + 1, 1, rect.h - 1));
+            DrawFilledRect(Rect(rect.x + 1, rect.y, rect.w - 1, 1), radii);
+            DrawFilledRect(Rect(rect.x + 1, rect.y + rect.h, rect.w - 1, 1), radii);
+            DrawFilledRect(Rect(rect.x, rect.y + 1, 1, rect.h - 1), radii);
+            DrawFilledRect(Rect(rect.x + rect.w, rect.y + 1, 1, rect.h - 1), radii);
         }
         else
         {
@@ -153,10 +155,10 @@ namespace SparkyStudios::UI::Pixel
             DrawPixel(Point(rect.x + rect.w - 1, rect.y + 1));
             DrawPixel(Point(rect.x + 1, rect.y + rect.h - 1));
             DrawPixel(Point(rect.x + rect.w - 1, rect.y + rect.h - 1));
-            DrawFilledRect(Rect(rect.x + 2, rect.y, rect.w - 3, 1));
-            DrawFilledRect(Rect(rect.x + 2, rect.y + rect.h, rect.w - 3, 1));
-            DrawFilledRect(Rect(rect.x, rect.y + 2, 1, rect.h - 3));
-            DrawFilledRect(Rect(rect.x + rect.w, rect.y + 2, 1, rect.h - 3));
+            DrawFilledRect(Rect(rect.x + 2, rect.y, rect.w - 3, 1), radii);
+            DrawFilledRect(Rect(rect.x + 2, rect.y + rect.h, rect.w - 3, 1), radii);
+            DrawFilledRect(Rect(rect.x, rect.y + 2, 1, rect.h - 3), radii);
+            DrawFilledRect(Rect(rect.x + rect.w, rect.y + 2, 1, rect.h - 3), radii);
         }
     }
 
@@ -199,9 +201,9 @@ namespace SparkyStudios::UI::Pixel
             }
 
             if (chr == 'o' || chr == 'O' || chr == '0')
-                DrawLinedRect(r);
+                DrawLinedRect(r, 1, Size(0, 0));
             else
-                DrawFilledRect(r);
+                DrawFilledRect(r, Size(0, 0));
         }
     }
 
