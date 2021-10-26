@@ -24,7 +24,7 @@ namespace SparkyStudios::UI::Pixel
 {
     struct PI_EXPORT Rect
     {
-        Rect(int x_ = 0, int y_ = 0, int w_ = 0, int h_ = 0)
+        explicit Rect(PiInt32 x_ = 0, PiInt32 y_ = 0, PiInt32 w_ = 0, PiInt32 h_ = 0)
             : x(x_)
             , y(y_)
             , w(w_)
@@ -38,22 +38,22 @@ namespace SparkyStudios::UI::Pixel
             , h(sz.y)
         {}
 
-        int Left() const
+        PiInt32 Left() const
         {
             return x;
         }
 
-        int Right() const
+        PiInt32 Right() const
         {
             return x + w;
         }
 
-        int Top() const
+        PiInt32 Top() const
         {
             return y;
         }
 
-        int Bottom() const
+        PiInt32 Bottom() const
         {
             return y + h;
         }
@@ -63,9 +63,15 @@ namespace SparkyStudios::UI::Pixel
             return x == other.x && y == other.y && w == other.w && h == other.h;
         }
 
-        Rect operator+(const Rect& rct) const
+        Rect operator+(const Rect& rect) const
         {
-            const Rect m(x + rct.x, y + rct.y, w + rct.w, h + rct.h);
+            const Rect m(x + rect.x, y + rect.y, w + rect.w, h + rect.h);
+            return m;
+        }
+
+        Rect operator+(const Size& size) const
+        {
+            const Rect m(x, y, w + size.w, h + size.h);
             return m;
         }
 
@@ -79,7 +85,7 @@ namespace SparkyStudios::UI::Pixel
             return Point(x, y);
         }
 
-        int x, y, w, h;
+        PiInt32 x, y, w, h;
     };
 } // namespace SparkyStudios::UI::Pixel
 

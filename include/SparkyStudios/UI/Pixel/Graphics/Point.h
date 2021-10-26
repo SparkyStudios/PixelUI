@@ -17,18 +17,18 @@
 #ifndef PIXEL_UI_POINT_H
 #define PIXEL_UI_POINT_H
 
-#include <SparkyStudios/UI/Pixel/Config/Config.h>
+#include <SparkyStudios/UI/Pixel/Core/Common.h>
 
 namespace SparkyStudios::UI::Pixel
 {
     struct PI_EXPORT Point
     {
-        Point(int x_ = 0, int y_ = 0)
+        explicit Point(PiInt32 x_ = 0, PiInt32 y_ = 0)
             : x(x_)
             , y(y_)
         {}
 
-        void set(int x_, int y_)
+        void Set(PiInt32 x_, PiInt32 y_)
         {
             x = x_, y = y_;
         }
@@ -55,7 +55,20 @@ namespace SparkyStudios::UI::Pixel
             return Point(x - p.x, y - p.y);
         }
 
-        int x, y;
+        union
+        {
+            // Position
+            struct
+            {
+                PiInt32 x, y;
+            };
+
+            // Size
+            struct
+            {
+                PiInt32 w, h;
+            };
+        };
     };
 
     typedef Point Size;
