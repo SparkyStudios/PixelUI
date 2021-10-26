@@ -212,7 +212,7 @@ namespace SparkyStudios::UI::Pixel
          * @param pos The position of the text.
          * @param text The text to draw.
          */
-        virtual void DrawText(const Font& font, Point pos, const PiString& text);
+        virtual void DrawString(const Font& font, Point pos, const PiString& text);
 
         /**
          * @brief Gets the size of the text.

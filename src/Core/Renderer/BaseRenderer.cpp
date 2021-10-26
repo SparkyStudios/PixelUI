@@ -160,7 +160,7 @@ namespace SparkyStudios::UI::Pixel
         }
     }
 
-    void BaseRenderer::DrawText(const Font& font, Point pos, const PiString& text)
+    void BaseRenderer::DrawString(const Font& font, Point pos, const PiString& text)
     {
         const float fSize = font.size * GetScale();
 
