@@ -23,7 +23,7 @@ namespace SparkyStudios::UI::Pixel
 
     PiString RelativeToExecutableResourcePaths::GetPath(Type type, const PiString& name) const
     {
-        PiString filePath(_resDir + name);
+        PiString filePath(_resDir + PI_NATIVE_PATH_SEP + name);
 
         // Only support TTF files for fonts
         if (type == Type::Font)
