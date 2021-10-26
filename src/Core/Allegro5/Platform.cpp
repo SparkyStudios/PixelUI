@@ -54,6 +54,8 @@ namespace SparkyStudios::UI::Pixel
             Size s;
             s.x = info.x2 - info.x1;
             s.y = info.y2 - info.y1;
+
+            return s;
         }
     } // namespace Platform
 } // namespace SparkyStudios::UI::Pixel
