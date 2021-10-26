@@ -17,9 +17,11 @@
 #ifndef PIXEL_UI_KEYBOARD_H
 #define PIXEL_UI_KEYBOARD_H
 
+#include <SparkyStudios/UI/Pixel/Core/Common.h>
+
 namespace SparkyStudios::UI::Pixel
 {
-    enum class Key : char
+    enum class Key : PiUInt32
     {
         Invalid = 0,
         Return,

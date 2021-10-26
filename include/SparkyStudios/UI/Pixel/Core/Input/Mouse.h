@@ -17,13 +17,15 @@
 #ifndef PIXEL_UI_CURSOR_H
 #define PIXEL_UI_CURSOR_H
 
+#include <SparkyStudios/UI/Pixel/Core/Common.h>
+
 #include <SparkyStudios/UI/Pixel/Graphics/Point.h>
 
 namespace SparkyStudios::UI::Pixel
 {
     class MainWindow;
 
-    enum class MouseButton
+    enum class MouseButton : PiUInt32
     {
         Left,
         Right,

@@ -22,6 +22,8 @@
 
 #include <SparkyStudios/UI/Pixel/Config/Config.h>
 #include <SparkyStudios/UI/Pixel/Config/Types.h>
+#include <SparkyStudios/UI/Pixel/Core/Input/Keyboard.h>
+#include <SparkyStudios/UI/Pixel/Core/Input/Mouse.h>
 
 namespace SparkyStudios::UI::Pixel
 {
@@ -30,6 +32,12 @@ namespace SparkyStudios::UI::Pixel
 
     struct EventData
     {
+        union
+        {
+            Key key;
+            MouseButton mouseButton;
+        };
+
         PiString string;
         PiInt8 int8;
         PiInt16 int16;
