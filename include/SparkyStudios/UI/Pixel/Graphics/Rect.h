@@ -74,6 +74,17 @@ namespace SparkyStudios::UI::Pixel
             const Rect m(x, y, w + size.w, h + size.h);
             return m;
         }
+        Rect operator-(const Rect& rect) const
+        {
+            const Rect m(x - rect.x, y - rect.y, w - rect.w, h - rect.h);
+            return m;
+        }
+
+        Rect operator-(const Size& size) const
+        {
+            const Rect m(x, y, w - size.w, h - size.h);
+            return m;
+        }
 
         Size GetSize() const
         {
