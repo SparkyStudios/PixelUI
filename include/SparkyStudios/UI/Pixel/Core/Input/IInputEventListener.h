@@ -33,20 +33,17 @@ namespace SparkyStudios::UI::Pixel
     class IInputEventListener
     {
     public:
-        virtual ~IInputEventListener()
-        {}
+        virtual ~IInputEventListener() = default;
 
-        virtual bool OnMouseMove(int x, int y, int deltaX, int deltaY) = 0;
+        virtual bool OnMouseMove(PiInt32 x, PiInt32 y, PiInt32 deltaX, PiInt32 deltaY) = 0;
 
         virtual bool OnMouseButton(MouseButton button, MouseButtonPressMode pressMode) = 0;
 
-        virtual bool OnMouseWheel(int val) = 0;
+        virtual bool OnMouseWheel(PiInt32 val) = 0;
 
-        virtual bool OnModifierKey(Key key, KeyPressMode pressedMode) = 0;
+        virtual bool OnSpecialKey(Key key, KeyPressMode pressedMode) = 0;
 
-        virtual bool OnKey(Key key, KeyPressMode pressedMode) = 0;
-
-        virtual bool InputQuit() = 0;
+        virtual bool OnCharacter(char character) = 0;
     };
 } // namespace SparkyStudios::UI::Pixel
 
