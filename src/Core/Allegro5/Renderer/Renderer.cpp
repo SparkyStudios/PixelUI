@@ -165,8 +165,8 @@ namespace SparkyStudios::UI::Pixel
     void Renderer_Allegro::DrawLinedRect(Rect rect, PiUInt32 thickness, const Size& radii)
     {
         Translate(rect);
-        const PiReal32 fx = rect.x + 0.5f, fy = rect.y + 0.5f;
-        al_draw_rounded_rectangle(fx, fy, fx + rect.w, fy + rect.h, radii.x, radii.y, _color, thickness);
+        const PiReal32 offset = (thickness * 0.5f), fx = rect.x + offset, fy = rect.y + offset;
+        al_draw_rounded_rectangle(fx, fy, fx + rect.w - thickness, fy + rect.h - thickness, radii.x, radii.y, _color, thickness);
     }
 
     void Renderer_Allegro::DrawShavedCornerRect(Rect rect, bool slight)
