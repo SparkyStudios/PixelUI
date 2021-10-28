@@ -39,7 +39,7 @@ namespace SparkyStudios::UI::Pixel
 
         virtual bool OnMouseButton(MouseButton button, MouseButtonPressMode pressMode) = 0;
 
-        virtual bool OnMouseWheel(PiInt32 val) = 0;
+        virtual bool OnMouseWheel(PiReal32 x, PiReal32 y) = 0;
 
         virtual bool OnSpecialKey(Key key, KeyPressMode pressedMode) = 0;
 

@@ -64,6 +64,11 @@ namespace SparkyStudios::UI::Pixel
                 return IsKeyDown(Key::Control);
             }
 
+            static inline bool IsAltDown()
+            {
+                return IsKeyDown(Key::Alt);
+            }
+
             // Does copy, paste etc
             static bool PI_EXPORT HandleAccelerator(Widget* canvas, char chr);
 
@@ -160,7 +165,7 @@ namespace SparkyStudios::UI::Pixel
 
         bool OnMouseButton(MouseButton button, MouseButtonPressMode pressMode) override;
 
-        bool OnMouseWheel(PiInt32 val) override;
+        bool OnMouseWheel(PiReal32 x, PiReal32 y) override;
 
         bool OnSpecialKey(Key key, KeyPressMode pressedMode) override;
 

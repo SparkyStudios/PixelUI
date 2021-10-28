@@ -647,36 +647,7 @@ namespace SparkyStudios::UI::Pixel
         return Input::OnKey(this, key, mode);
     }
 
-    //    bool Canvas::InputCharacter(char chr)
-    //    {
-    //        if (IsHidden())
-    //            return false;
-    //
-    //        // Check if character is printable, i.e. don't want hidden codes, like backspace.
-    //        if (!std::isprint(chr))
-    //            return false;
-    //
-    //        // Handle Accelerators
-    //        if (Input::HandleAccelerator(this, chr))
-    //            return true;
-    //
-    //        // Handle characters
-    //        if (!gKeyboardFocusedWidget)
-    //            return false;
-    //
-    //        if (gKeyboardFocusedWidget->GetCanvas() != this)
-    //            return false;
-    //
-    //        if (!gKeyboardFocusedWidget->IsVisible())
-    //            return false;
-    //
-    //        if (Input::IsControlDown())
-    //            return false;
-    //
-    //        return gKeyboardFocusedWidget->OnChar(chr);
-    //    }
-
-    bool Canvas::OnMouseWheel(PiInt32 val)
+    bool Canvas::OnMouseWheel(PiReal32 x, PiReal32 y)
     {
         if (IsHidden())
             return false;
@@ -690,8 +661,7 @@ namespace SparkyStudios::UI::Pixel
         if (gHoveredWidget->GetCanvas() != this)
             return false;
 
-        // TODO: Scroll over horizontal axis
-        return gHoveredWidget->OnMouseWheel(Point(val, 0));
+        return gHoveredWidget->OnMouseWheel(Point(x, y));
     }
 
     bool Canvas::OnCharacter(char chr)
@@ -717,7 +687,7 @@ namespace SparkyStudios::UI::Pixel
         if (!gKeyboardFocusedWidget->IsVisible())
             return false;
 
-        if (Input::IsControlDown())
+        if (Input::IsControlDown() || Input::IsAltDown())
             return false;
 
         return gKeyboardFocusedWidget->OnCharacter(chr);
