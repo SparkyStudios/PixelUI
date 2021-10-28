@@ -52,8 +52,10 @@
 #define PI_EXPORT
 #endif
 
-// Enable animation functions.
-#define PI_ANIMATE 1
+// Enable animation functions by default.
+#ifndef PI_ENABLE_ANIMATION
+#define PI_ENABLE_ANIMATION 1
+#endif
 
 // Platform detection
 #if defined(_WIN32) || defined(_WIN64) || defined(WINAPI_FAMILY)
