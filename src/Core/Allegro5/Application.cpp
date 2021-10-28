@@ -41,7 +41,7 @@ namespace SparkyStudios::UI::Pixel
         al_destroy_event_queue(gEventQueue);
     }
 
-    bool Application::Init(MainWindow* mainWindow)
+    bool Application::Init(MainWindow* mainWindow, const Skin::Data& skinData)
     {
         if (!_initialized)
         {
@@ -70,10 +70,14 @@ namespace SparkyStudios::UI::Pixel
             al_register_event_source(gEventQueue, al_get_mouse_event_source());
             al_register_event_source(gEventQueue, al_get_keyboard_event_source());
 
+            SetAppResourcesDirectoryPath(skinData.resourcesDir);
+
             _paths = RelativeToExecutableResourcePaths(gAppResourcesDir);
 
             _renderer = new Renderer_Allegro(_paths);
-            _skin = new Skin(Skin::Mode::Colored, _renderer);
+            _skin = new Skin(skinData, _renderer);
+
+            mainWindow->CreateRootCanvas(_skin);
 
             _mainWindow = mainWindow;
 

@@ -60,10 +60,11 @@ namespace SparkyStudios::UI::Pixel
          * @brief Initializes the application with the given main window.
          *
          * @param mainWindow The application main window.
+         * @param skinData The application skin data.
          *
          * @return Whether the initialization was successful.
          */
-        bool Init(MainWindow* mainWindow);
+        bool Init(MainWindow* mainWindow, const Skin::Data& skinData = Skin::Data::Default);
 
         /**
          * @brief Starts and runs the application.
