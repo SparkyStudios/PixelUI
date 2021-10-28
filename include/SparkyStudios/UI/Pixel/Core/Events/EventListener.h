@@ -124,7 +124,15 @@ namespace SparkyStudios::UI::Pixel
          * @param data The additional data to pass to the handler when this listener receive the event.
          */
         template<typename T>
-        void Add(EventHandler* handler, void (T::*f)(EventInfo), const EventData& data = EventData());
+        void Add(EventHandler* handler, void (T::*f)(EventInfo), const EventData& data = EventData())
+        {
+            auto callback = [=](EventHandler& h, const EventInfo& i) -> void
+            {
+                (static_cast<T&>(h).*f)(i);
+            };
+
+            AddCallback(handler, EventCallback(callback), data);
+        }
 
         /**
          * @brief Unregisters an event handler from this event listener.

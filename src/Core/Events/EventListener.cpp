@@ -29,17 +29,6 @@ namespace SparkyStudios::UI::Pixel
         AddInternal(handler, callback, packet);
     }
 
-    template<typename T>
-    void EventListener::Add(EventHandler* handler, void (T::*f)(EventInfo), const EventData& packet)
-    {
-        auto callback = [=](EventHandler& h, Info const& i) -> void
-        {
-            (static_cast<T&>(h).*f)(i);
-        };
-
-        AddCallback(handler, EventCallback(callback), packet);
-    }
-
     void EventListener::RemoveHandler(EventHandler* handler)
     {
         handler->UnregisterListener(this);
