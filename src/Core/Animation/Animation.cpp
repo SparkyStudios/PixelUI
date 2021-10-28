@@ -149,8 +149,8 @@ namespace SparkyStudios::UI::Pixel
     void Animation::Start(PiTime time)
     {
         m_start = time + m_delay;
-        OnStart();
         m_started = true;
+        OnStart();
     }
 
     void Animation::Update(PiTime time)

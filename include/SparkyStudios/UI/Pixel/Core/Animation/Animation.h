@@ -174,6 +174,25 @@ namespace SparkyStudios::UI::Pixel
 
     protected:
         /**
+         * @brief Starts the animation.
+         *
+         * @param time The total elapsed time since the start of the application.
+         */
+        virtual void Start(PiTime time);
+
+        /**
+         * @brief Process frames for this animation.
+         *
+         * @param time The total elapsed time since the start of the application.
+         */
+        virtual void Update(PiTime time);
+
+        /**
+         * @brief Finishes the animation.
+         */
+        virtual void Finish();
+
+        /**
          * @brief The widget on which this animation is applied.
          */
         Widget* m_control;
@@ -215,26 +234,6 @@ namespace SparkyStudios::UI::Pixel
          * is set to Custom.
          */
         Transition m_customCurve;
-
-    private:
-        /**
-         * @brief Starts the animation.
-         *
-         * @param time The total elapsed time since the start of the application.
-         */
-        void Start(PiTime time);
-
-        /**
-         * @brief Process frames for this animation.
-         *
-         * @param time The total elapsed time since the start of the application.
-         */
-        void Update(PiTime time);
-
-        /**
-         * @brief Finishes the animation.
-         */
-        void Finish();
     };
 } // namespace SparkyStudios::UI::Pixel
 
