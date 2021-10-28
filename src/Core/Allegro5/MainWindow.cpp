@@ -23,32 +23,32 @@ namespace SparkyStudios::UI::Pixel
     {
         int alFlags = 0;
 
-        if (flags & MAIN_WINDOW_WINDOWED == MAIN_WINDOW_WINDOWED)
+        if ((flags & MAIN_WINDOW_WINDOWED) == MAIN_WINDOW_WINDOWED)
         {
             alFlags |= ALLEGRO_WINDOWED;
         }
 
-        if (flags & MAIN_WINDOW_FULLSCREEN == MAIN_WINDOW_FULLSCREEN)
+        if ((flags & MAIN_WINDOW_FULLSCREEN) == MAIN_WINDOW_FULLSCREEN)
         {
             alFlags |= ALLEGRO_FULLSCREEN;
         }
 
-        if (flags & MAIN_WINDOW_RESIZABLE == MAIN_WINDOW_RESIZABLE)
+        if ((flags & MAIN_WINDOW_RESIZABLE) == MAIN_WINDOW_RESIZABLE)
         {
             alFlags |= ALLEGRO_RESIZABLE;
         }
 
-        if (flags & MAIN_WINDOW_FRAMELESS == MAIN_WINDOW_FRAMELESS)
+        if ((flags & MAIN_WINDOW_FRAMELESS) == MAIN_WINDOW_FRAMELESS)
         {
             alFlags |= ALLEGRO_FRAMELESS;
         }
 
-        if (flags & MAIN_WINDOW_MINIMIZED == MAIN_WINDOW_MINIMIZED)
+        if ((flags & MAIN_WINDOW_MINIMIZED) == MAIN_WINDOW_MINIMIZED)
         {
             alFlags |= ALLEGRO_MINIMIZED;
         }
 
-        if (flags & MAIN_WINDOW_MAXIMIZED == MAIN_WINDOW_MAXIMIZED)
+        if ((flags & MAIN_WINDOW_MAXIMIZED) == MAIN_WINDOW_MAXIMIZED)
         {
             alFlags |= ALLEGRO_MAXIMIZED;
         }
@@ -56,7 +56,7 @@ namespace SparkyStudios::UI::Pixel
         return alFlags;
     }
 
-    MainWindow::MainWindow(PiInt32 x, PiInt32 y, PiUInt32 width, PiUInt32 height, PiString title, int flags)
+    MainWindow::MainWindow(PiInt32 x, PiInt32 y, PiUInt32 width, PiUInt32 height, const PiString& title, int flags)
         : _nativeHandle(nullptr)
         , _cursor(new Cursor(this))
         , _position(x, y)
@@ -65,15 +65,15 @@ namespace SparkyStudios::UI::Pixel
         , _flags(flags)
     {}
 
-    MainWindow::MainWindow(PiUInt32 width, PiUInt32 height, PiString title, int flags)
+    MainWindow::MainWindow(PiUInt32 width, PiUInt32 height, const PiString& title, int flags)
         : MainWindow(-1, -1, width, height, title, flags)
     {}
 
-    MainWindow::MainWindow(const Rect& rect, PiString title, int flags)
+    MainWindow::MainWindow(const Rect& rect, const PiString& title, int flags)
         : MainWindow(rect.x, rect.y, rect.w, rect.h, title, flags)
     {}
 
-    MainWindow::MainWindow(const Size& size, PiString title, int flags)
+    MainWindow::MainWindow(const Size& size, const PiString& title, int flags)
         : MainWindow(size.x, size.y, title, flags)
     {}
 
@@ -89,7 +89,8 @@ namespace SparkyStudios::UI::Pixel
             al_set_new_window_position(_position.x, _position.y);
         }
 
-        al_set_new_display_flags(TranslateToAllegroFlags(_flags));
+        al_set_new_display_flags(TranslateToAllegroFlags(_flags) | ALLEGRO_GENERATE_EXPOSE_EVENTS);
+
         _nativeHandle = al_create_display(_size.x, _size.y);
 
         if (!_nativeHandle)
@@ -101,6 +102,19 @@ namespace SparkyStudios::UI::Pixel
     PiVoidPtr MainWindow::GetNativeHandle() const
     {
         return _nativeHandle;
+    }
+
+    void MainWindow::CreateRootCanvas(Skin* skin)
+    {
+        _rootCanvas = std::make_unique<Canvas>(this, skin);
+        _rootCanvas->SetSize(_size);
+        _rootCanvas->SetDrawBackground(true);
+        _rootCanvas->SetName("@@root");
+    }
+
+    const std::unique_ptr<Canvas>& MainWindow::GetRootCanvas() const
+    {
+        return _rootCanvas;
     }
 
     void MainWindow::SetTitle(const PiString& title)
@@ -132,6 +146,16 @@ namespace SparkyStudios::UI::Pixel
     const Size& MainWindow::GetSize() const
     {
         return _size;
+    }
+
+    PiInt32 MainWindow::GetWidth() const
+    {
+        return _size.w;
+    }
+
+    PiInt32 MainWindow::GetHeight() const
+    {
+        return _size.h;
     }
 
     void MainWindow::SetPosition(const Point& position)
@@ -231,13 +255,24 @@ namespace SparkyStudios::UI::Pixel
         return true;
     }
 
+    void MainWindow::OnResize(const Size& newSize)
+    {
+        al_acknowledge_resize(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle));
+        _rootCanvas->SetSize(newSize);
+    }
+
+    void MainWindow::OnExpose()
+    {}
+
     void MainWindow::Paint(Skin* skin)
     {
         if (skin == nullptr)
             return;
 
         skin->GetRenderer()->BeginContext(this);
-        // TODO: Implement canvas drawing here
+        {
+            _rootCanvas->RenderCanvas();
+        }
         skin->GetRenderer()->PresentContext(this);
         skin->GetRenderer()->EndContext(this);
     }
