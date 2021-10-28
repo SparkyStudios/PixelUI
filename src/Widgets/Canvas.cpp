@@ -420,7 +420,7 @@ namespace SparkyStudios::UI::Pixel
         if (gTooltipWidget == nullptr)
             return;
 
-        const Skin::ColorData& skinData = skin->GetColorData();
+        const Skin::Data& skinData = skin->GetSkinData();
         BaseRenderer* renderer = skin->GetRenderer();
         Point oldRenderOffset = renderer->GetRenderOffset();
         Point mousePos = Input::GetMousePosition();
@@ -727,7 +727,7 @@ namespace SparkyStudios::UI::Pixel
     {
         ParentClass::SetSkin(skin, affectChildren);
 
-        Skin::ColorData data = skin->GetColorData();
+        Skin::Data data = skin->GetSkinData();
         skin->SetDefaultFont(data.Canvas.defaultFont);
 
         SetBackgroundColor(data.Canvas.backgroundColor);

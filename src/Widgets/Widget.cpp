@@ -164,9 +164,9 @@ namespace SparkyStudios::UI::Pixel
     {
         auto* tooltip = new Label(this);
         tooltip->SetText(text);
-        tooltip->SetFontSize(GetSkin()->GetColorData().Tooltip.textSize);
-        tooltip->SetTextColorOverride(GetSkin()->GetColorData().Tooltip.textColor);
-        tooltip->SetPadding(GetSkin()->GetColorData().Tooltip.padding);
+        tooltip->SetFontSize(GetSkin()->GetSkinData().Tooltip.textSize);
+        tooltip->SetTextColorOverride(GetSkin()->GetSkinData().Tooltip.textColor);
+        tooltip->SetPadding(GetSkin()->GetSkinData().Tooltip.padding);
         tooltip->SizeToContents();
         SetTooltip(tooltip);
     }

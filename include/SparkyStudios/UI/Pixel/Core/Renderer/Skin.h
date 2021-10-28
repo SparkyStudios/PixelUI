@@ -19,6 +19,8 @@
 
 #include <SparkyStudios/UI/Pixel/Core/Renderer/BaseRenderer.h>
 
+#include <SparkyStudios/UI/Pixel/Widgets/Base.h>
+
 namespace SparkyStudios::UI::Pixel
 {
     class Widget;
@@ -33,54 +35,120 @@ namespace SparkyStudios::UI::Pixel
     {
     public:
         /**
-         * @brief The skin mode. Either colored or textured.
+         * @brief The skin data. Defines the template for each core widgets
+         * of PixelUI.
          */
-        enum class Mode
+        struct Data
         {
-            Colored,
-            Textured,
-        };
+            static const Data Default;
 
-        /**
-         * @brief The color of the skin. Used when in Colored mode.
-         */
-        struct ColorData
-        {
-            static const ColorData Default;
+            PiString resourcesDir;
 
-            Color m_Border;
-            Color m_WidgetOutlineLight;
-            Color m_WidgetOutlineLighter;
-            Color m_Background;
-            Color m_BackgroundDark;
-            Color m_Widget;
-            Color m_WidgetBorderHighlight;
-            Color m_WidgetDarker;
-            Color m_WidgetOutlineNormal;
-            Color m_WidgetBright;
-            Color m_WidgetDark;
-            Color m_HighlightBackground;
-            Color m_HighlightBorder;
-            Color m_TooltipBackground;
-            Color m_TooltipBorder;
-            Color m_Modal;
+            // Canvas
+            struct
+            {
+                // Padding
+                Padding padding;
+
+                // Background
+                Color backgroundColor;
+
+                // Font
+                Font defaultFont;
+            } Canvas;
+
+            // Tooltip
+            struct
+            {
+                // Borders
+                Color borderColor;
+                Size borderRadius;
+                PiUInt32 borderWidth;
+
+                // Padding
+                Padding padding;
+
+                // Background
+                Color backgroundColor;
+
+                // Text
+                Color textColor;
+                PiUInt32 textSize;
+            } Tooltip;
+
+            // Button
+            struct
+            {
+                // Borders
+                Color borderColorNormal;
+                Color borderColorDisabled;
+                Color borderColorHovered;
+                Color borderColorPressed;
+                Size borderRadius;
+                PiUInt32 borderWidth;
+
+                // Padding & Size
+                Padding padding;
+
+                // Background
+                Color backgroundColorNormal;
+                Color backgroundColorDisabled;
+                Color backgroundColorHovered;
+                Color backgroundColorPressed;
+
+                // Text
+                Color textColorNormal;
+                Color textColorDisabled;
+                Color textColorHovered;
+                Color textColorPressed;
+                PiUInt32 textSize;
+            } Button;
+
+            // CheckBox
+            struct
+            {
+                // Borders
+                Color borderColorNormal;
+                Color borderColorDisabled;
+                Color borderColorHovered;
+                Color borderColorPressed;
+                Size borderRadius;
+                PiUInt32 borderWidth;
+
+                // Padding
+                Padding padding;
+                Size size;
+
+                // Background
+                Color backgroundColorNormal;
+                Color backgroundColorDisabled;
+                Color backgroundColorHovered;
+                Color backgroundColorPressed;
+
+                // Text
+                Color textColorNormal;
+                Color textColorDisabled;
+                Color textColorHovered;
+                Color textColorPressed;
+                PiUInt32 textSize;
+            } CheckBox;
+
+            // Label
+            struct
+            {
+                Color textColor;
+            } Label;
         };
 
         /**
          * @brief Constructor
          *
+         * @param skinData The skin data.
          * @param renderer The renderer to use when drawing the skin.
          */
-        Skin(Mode mode = Mode::Colored, BaseRenderer* renderer = nullptr);
+        Skin(const Data& skinData, BaseRenderer* renderer = nullptr);
 
         ~Skin();
-
-        /**
-         * @brief Set the skin mode.
-         *
-         * @param mode The skin mode.
-         */
-        void SetMode(Mode mode);
 
         /**
          * @brief Releases a loaded font from the renderer.
@@ -94,14 +162,14 @@ namespace SparkyStudios::UI::Pixel
          *
          * @param data The skin colors.
          */
-        virtual void SetColorData(const ColorData& data);
+        virtual void SetSkinData(const Data& data);
 
         /**
          * @brief Get the color of the skin.
          *
          * @return The color data.
          */
-        virtual const ColorData& GetColorData() const;
+        virtual const Data& GetSkinData() const;
 
         /**
          * @brief Sets the renderer to use for drawing the skin.
@@ -134,8 +202,7 @@ namespace SparkyStudios::UI::Pixel
     protected:
         Font m_defaultFont;
         BaseRenderer* m_renderer;
-        Mode m_skinMode;
-        ColorData m_colorData;
+        Data m_colorData;
     };
 } // namespace SparkyStudios::UI::Pixel
 
