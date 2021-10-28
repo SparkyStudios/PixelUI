@@ -39,6 +39,10 @@ namespace SparkyStudios::UI::Pixel
         Down,
         Escape,
         Alt,
+        PageUp,
+        PageDown,
+        Pause,
+        Insert,
         Command, // Mac command/clover
         MAX //!< number of keys
     };
