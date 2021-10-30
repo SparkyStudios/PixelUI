@@ -50,25 +50,25 @@ namespace SparkyStudios::UI::Pixel
         if (!_initialized)
         {
             if (!al_init())
-                return EXIT_FAILURE;
+                return false;
 
             // Create the main window
             mainWindow->CreateNativeWindow();
             gDisplay = static_cast<ALLEGRO_DISPLAY*>(mainWindow->GetNativeHandle());
 
             if (!gDisplay)
-                return EXIT_FAILURE;
+                return false;
 
             // Create a time with a fixed FPS of 60
             gTimer = al_create_timer(1.0 / 60.0);
 
             if (!gTimer)
-                return EXIT_FAILURE;
+                return false;
 
             gEventQueue = al_create_event_queue();
 
             if (!gEventQueue)
-                return EXIT_FAILURE;
+                return false;
 
             al_init_image_addon();
             al_init_font_addon();
