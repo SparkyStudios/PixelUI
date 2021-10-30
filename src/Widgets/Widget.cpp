@@ -1008,6 +1008,7 @@ namespace SparkyStudios::UI::Pixel
     void Widget::OnMouseButton(const Point& position, MouseButton button, MouseButtonPressMode mode)
     {
         EventInfo info(this);
+        info.data.point = position;
         info.data.mouseButton = button;
         On(mode == MouseButtonPressMode::Pressed ? MouseButtonDownEvent : MouseButtonUpEvent)->Call(this, info);
     }
@@ -1017,6 +1018,7 @@ namespace SparkyStudios::UI::Pixel
         OnMouseButton(position, button, KeyPressMode::Pressed);
 
         EventInfo info(this);
+        info.data.point = position;
         info.data.mouseButton = button;
         On(MouseDoubleClickEvent)->Call(this, info);
     }
@@ -1061,7 +1063,7 @@ namespace SparkyStudios::UI::Pixel
 
     bool Widget::OnKeyDown(Key key)
     {
-        EventInfo info{};
+        EventInfo info(this);
         info.data.key = key;
         On(KeyDownEvent)->Call(this, info);
         return false;
@@ -1069,7 +1071,7 @@ namespace SparkyStudios::UI::Pixel
 
     bool Widget::OnKeyUp(Key key)
     {
-        EventInfo info{};
+        EventInfo info(this);
         info.data.key = key;
         On(KeyUpEvent)->Call(this, info);
         return false;

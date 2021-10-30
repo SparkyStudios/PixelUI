@@ -38,6 +38,8 @@ namespace SparkyStudios::UI::Pixel
             MouseButton mouseButton;
         };
 
+        Point point;
+
         PiString string;
         PiInt8 int8;
         PiInt16 int16;
