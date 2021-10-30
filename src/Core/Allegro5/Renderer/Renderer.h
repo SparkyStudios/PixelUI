@@ -127,6 +127,14 @@ namespace SparkyStudios::UI::Pixel
 
         void DrawLinedRect(Rect rect, PiUInt32 thickness = 0.0f, const Size& radii = Size(0, 0)) override;
 
+        void DrawFilledEllipse(Rect rect) override;
+
+        void DrawLinedEllipse(Rect rect, PiUInt32 thickness) override;
+
+        void DrawFilledTriangle(Point p1, Point p2, Point p3) override;
+
+        void DrawLinedTriangle(Point p1, Point p2, Point p3, PiUInt32 thickness) override;
+
         void DrawShavedCornerRect(Rect rect, bool bSlight = false) override;
 
         void DrawString(const Font& font, Point pos, const PiString& text) override;

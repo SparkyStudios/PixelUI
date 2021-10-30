@@ -169,6 +169,40 @@ namespace SparkyStudios::UI::Pixel
         al_draw_rounded_rectangle(fx, fy, fx + rect.w - thickness, fy + rect.h - thickness, radii.x, radii.y, _color, thickness);
     }
 
+    void Renderer_Allegro::DrawFilledEllipse(Rect rect)
+    {
+        Translate(rect);
+        if (rect.w == rect.h)
+            al_draw_filled_circle(rect.x + (rect.w / 2), rect.y + (rect.h / 2), rect.w / 2, _color);
+        else
+            al_draw_filled_ellipse(rect.x + (rect.w / 2), rect.y + (rect.h / 2), rect.w / 2, rect.h / 2, _color);
+    }
+
+    void Renderer_Allegro::DrawLinedEllipse(Rect rect, PiUInt32 thickness)
+    {
+        Translate(rect);
+        if (rect.w == rect.h)
+            al_draw_circle(rect.x + (rect.w / 2), rect.y + (rect.h / 2), rect.w / 2, _color, thickness);
+        else
+            al_draw_ellipse(rect.x + (rect.w / 2), rect.y + (rect.h / 2), rect.w / 2, rect.h / 2, _color, thickness);
+    }
+
+    void Renderer_Allegro::DrawFilledTriangle(Point p1, Point p2, Point p3)
+    {
+        Translate(p1.x, p1.y);
+        Translate(p2.x, p2.y);
+        Translate(p3.x, p3.y);
+        al_draw_filled_triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, _color);
+    }
+
+    void Renderer_Allegro::DrawLinedTriangle(Point p1, Point p2, Point p3, PiUInt32 thickness)
+    {
+        Translate(p1.x, p1.y);
+        Translate(p2.x, p2.y);
+        Translate(p3.x, p3.y);
+        al_draw_triangle(p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, _color, thickness);
+    }
+
     void Renderer_Allegro::DrawShavedCornerRect(Rect rect, bool slight)
     {
         // Draw INSIDE the w/h.

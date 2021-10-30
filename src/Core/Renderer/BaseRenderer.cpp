@@ -129,6 +129,18 @@ namespace SparkyStudios::UI::Pixel
         DrawFilledRect(Rect(rect.x + rect.w - 1, rect.y, 1, rect.h), radii);
     }
 
+    void BaseRenderer::DrawFilledEllipse(Rect rect)
+    {}
+
+    void BaseRenderer::DrawLinedEllipse(Rect rect, PiUInt32 thickness)
+    {}
+
+    void BaseRenderer::DrawFilledTriangle(Point p1, Point p2, Point p3)
+    {}
+
+    void BaseRenderer::DrawLinedTriangle(Point p1, Point p2, Point p3, PiUInt32 thickness)
+    {}
+
     void BaseRenderer::DrawPixel(const Point& position)
     {
         DrawFilledRect(Rect(position.x, position.y, 1, 1), Size(0, 0));

@@ -201,6 +201,42 @@ namespace SparkyStudios::UI::Pixel
         virtual void DrawPixel(const Point& position);
 
         /**
+         * @brief Draws a circle filled with the drawing color.
+         *
+         * @param rect The target space to draw into. If the target is a square,
+         * the function will draw a circle.
+         */
+        virtual void DrawFilledEllipse(Rect rect);
+
+        /**
+         * @brief Draws a circle lined with the drawing color.
+         *
+         * @param rect The target space to draw into. If the target is a square,
+         * the function will draw a circle.
+         * @param thickness The width of the ellipse borders.
+         */
+        virtual void DrawLinedEllipse(Rect rect, PiUInt32 thickness);
+
+        /**
+         * @brief Draws a triangle filled with the drawing color.
+         *
+         * @param p1 The first point of the triangle.
+         * @param p2 The second point of the triangle.
+         * @param p3 The third point of the triangle.
+         */
+        virtual void DrawFilledTriangle(Point p1, Point p2, Point p3);
+
+        /**
+         * @brief Draws a triangle lined with the drawing color.
+         *
+         * @param p1 The first point of the triangle.
+         * @param p2 The second point of the triangle.
+         * @param p3 The third point of the triangle.
+         * @param thickness The width of the ellipse borders.
+         */
+        virtual void DrawLinedTriangle(Point p1, Point p2, Point p3, PiUInt32 thickness);
+
+        /**
          * @brief Draws a rectangle with shaved corners.
          *
          * @param rect The target space to draw into.
