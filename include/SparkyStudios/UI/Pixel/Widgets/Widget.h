@@ -30,10 +30,10 @@
 /**
  * @brief Provides pi_cast dynamic cast features on a PixelUI widget.
  */
-#define PI_DYNAMIC(THISNAME, BASENAME)                                                                                                     \
+#define PI_DYNAMIC(_this_name_, _base_name_)                                                                                               \
     static const char* GetIdentifier()                                                                                                     \
     {                                                                                                                                      \
-        static const char* ident = #BASENAME ":" #THISNAME;                                                                                \
+        static const char* ident = #_base_name_ ":" #_this_name_;                                                                          \
         return ident;                                                                                                                      \
     }                                                                                                                                      \
                                                                                                                                            \
@@ -48,9 +48,9 @@
 /**
  * @brief Defines standard type names for a PixelUI widget class and its parent.
  */
-#define PI_CLASS(THISNAME, BASENAME)                                                                                                       \
-    typedef BASENAME ParentClass;                                                                                                          \
-    typedef THISNAME ThisClass;
+#define PI_CLASS(_this_name_, _base_name_)                                                                                                 \
+    typedef _base_name_ ParentClass;                                                                                                       \
+    typedef _this_name_ ThisClass;
 
 /**
  * @brief Initializes a PixelUI widget class with some default settings.
@@ -77,7 +77,7 @@ public:                                                                         
     {                                                                                                                                      \
         return ParentClass::GetTypeNameStatic();                                                                                           \
     }                                                                                                                                      \
-    explicit _this_name_(SparkyStudios::UI::Pixel::Widget* parent = nullptr, const SparkyStudios::UI::Pixel::PiString& name = "")
+    explicit _this_name_(SparkyStudios::UI::Pixel::Widget* parent = nullptr, SparkyStudios::UI::Pixel::PiString name = "")
 
 /**
  * @brief Similar as PI_WIDGET, but optimized for inlined constructors
@@ -92,8 +92,8 @@ public:                                                                         
  * This macro can be used only if PI_WIDGET was also used in the header file.
  */
 #define PI_WIDGET_CONSTRUCTOR(_this_name_)                                                                                                 \
-    _this_name_::_this_name_(SparkyStudios::UI::Pixel::Widget* parent, const SparkyStudios::UI::Pixel::PiString& name)                     \
-        : ParentClass(parent, name)
+    _this_name_::_this_name_(SparkyStudios::UI::Pixel::Widget* parent, SparkyStudios::UI::Pixel::PiString name)                            \
+        : ParentClass(parent, std::move(name))
 
 namespace SparkyStudios::UI::Pixel
 {
@@ -115,32 +115,37 @@ namespace SparkyStudios::UI::Pixel
         /**
          * @brief The mouse enter event.
          */
-        static const PiString MouseEnterEvent;
+        static const char* const MouseEnterEvent;
 
         /**
          * @brief The mouse leave event.
          */
-        static const PiString MouseLeaveEvent;
+        static const char* const MouseLeaveEvent;
 
         /**
          * @brief The mouse button pressed event.
          */
-        static const PiString MouseButtonDownEvent;
+        static const char* const MouseButtonDownEvent;
 
         /**
          * @brief The mouse button released event.
          */
-        static const PiString MouseButtonUpEvent;
+        static const char* const MouseButtonUpEvent;
+
+        /**
+         * @brief The mouse button double click event.
+         */
+        static const char* const MouseDoubleClickEvent;
 
         /**
          * @brief The key pressed event.
          */
-        static const PiString KeyDownEvent;
+        static const char* const KeyDownEvent;
 
         /**
          * @brief The key released event.
          */
-        static const PiString KeyUpEvent;
+        static const char* const KeyUpEvent;
 
         /**
          * @brief A collection of widgets.
@@ -153,8 +158,8 @@ namespace SparkyStudios::UI::Pixel
          * @param parent The parent widget.
          * @param name The widget name.
          */
-        explicit Widget(Widget* parent, const PiString& name = "");
-        virtual ~Widget();
+        explicit Widget(Widget* parent, PiString name = "");
+        ~Widget() override;
 
         /**
          * @brief Get the type name of this widget.

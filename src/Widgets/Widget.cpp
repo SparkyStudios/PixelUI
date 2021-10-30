@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <algorithm>
 #include <cmath>
+#include <utility>
 
 #include <SparkyStudios/UI/Pixel/Widgets/Canvas.h>
 #include <SparkyStudios/UI/Pixel/Widgets/Label.h>
-#include <SparkyStudios/UI/Pixel/Widgets/Widget.h>
 
 #if PI_ENABLE_ANIMATION
 #include <SparkyStudios/UI/Pixel/Core/Animation/Animation.h>
@@ -24,14 +25,15 @@
 
 namespace SparkyStudios::UI::Pixel
 {
-    const PiString Widget::MouseEnterEvent = "Widget::Events::MouseEnter";
-    const PiString Widget::MouseLeaveEvent = "Widget::Events::MouseLeave";
-    const PiString Widget::MouseButtonDownEvent = "Widget::Events::MouseButtonDown";
-    const PiString Widget::MouseButtonUpEvent = "Widget::Events::MouseButtonUp";
-    const PiString Widget::KeyDownEvent = "Widget::Events::KeyDown";
-    const PiString Widget::KeyUpEvent = "Widget::Events::KeyUp";
+    const char* const Widget::MouseEnterEvent = "Widget::Events::MouseEnter";
+    const char* const Widget::MouseLeaveEvent = "Widget::Events::MouseLeave";
+    const char* const Widget::MouseButtonDownEvent = "Widget::Events::MouseButtonDown";
+    const char* const Widget::MouseButtonUpEvent = "Widget::Events::MouseButtonUp";
+    const char* const Widget::MouseDoubleClickEvent = "Widget::Events::MouseDoubleClick";
+    const char* const Widget::KeyDownEvent = "Widget::Events::KeyDown";
+    const char* const Widget::KeyUpEvent = "Widget::Events::KeyUp";
 
-    Widget::Widget(Widget* parent, const PiString& name)
+    Widget::Widget(Widget* parent, PiString name)
         : m_parent(nullptr)
         , m_actualParent(nullptr)
         , m_innerPanel(nullptr)
@@ -46,18 +48,18 @@ namespace SparkyStudios::UI::Pixel
         , m_cacheToTexture(false)
         , m_includeInSize(true)
         , m_tooltip(nullptr)
+        , m_name(std::move(name))
+        , m_restrictToParent(false)
+        , m_mouseInputEnabled(true)
+        , m_keyboardInputEnabled(false)
+        , m_drawBackground(true)
+        , m_needsLayout(true)
     {
-        SetName(name);
         SetParent(parent);
         // m_dragAndDrop_Package = nullptr;
-        RestrictToParent(false);
-        SetMouseInputEnabled(true);
-        SetKeyboardInputEnabled(false);
         Invalidate();
         // SetCursor(Gwk::CursorType::Normal);
-        // SetTooltip(nullptr);
         // SetTabable(false);
-        // SetShouldDrawBackground(true);
     }
 
     Widget::~Widget()
@@ -97,9 +99,10 @@ namespace SparkyStudios::UI::Pixel
 
             // DragAndDrop::ControlDeleted(this);
             // Tooltip::ControlDeleted(this);
-#if GWK_ANIMATE
-        Anim::Cancel(this);
-#endif
+
+#if PI_ENABLE_ANIMATION
+        Animation::Cancel(this);
+#endif // PI_ENABLE_ANIMATION
 
         // if (m_dragAndDrop_Package)
         // {
@@ -207,13 +210,12 @@ namespace SparkyStudios::UI::Pixel
 
     bool Widget::IsChild(Widget* child) const
     {
-        for (auto&& c : m_children)
-        {
-            if (c == child)
-                return true;
-        }
-
-        return false;
+        return std::any_of(
+            m_children.begin(), m_children.end(),
+            [=](Widget* c) -> bool
+            {
+                return (c == child);
+            });
     }
 
     PiUInt32 Widget::ChildCount() const
@@ -298,8 +300,7 @@ namespace SparkyStudios::UI::Pixel
         for (auto it = m_children.rbegin(); it != m_children.rend(); ++it)
         {
             Widget* child = *it;
-            Widget* found = nullptr;
-            found = child->GetWidgetAt(x - child->m_bounds.x, y - child->m_bounds.y, onlyIfMouseEnabled);
+            Widget* found = child->GetWidgetAt(x - child->m_bounds.x, y - child->m_bounds.y, onlyIfMouseEnabled);
 
             if (found != nullptr)
                 return found;
@@ -310,7 +311,7 @@ namespace SparkyStudios::UI::Pixel
 
     void Widget::ClearChildren()
     {
-        while (m_children.size() > 0)
+        while (!m_children.empty())
         {
             RemoveChild(*m_children.begin());
         }
@@ -388,9 +389,8 @@ namespace SparkyStudios::UI::Pixel
             int x = position.x + X();
             int y = position.y + Y();
 
-            // If our parent has an innerpanel and we're a child of it
+            // If our parent has an inner panel, and we're a child of it
             // add its offset onto us.
-            //
             if (m_parent->m_innerPanel && m_parent->m_innerPanel->IsChild(this))
             {
                 x += m_parent->m_innerPanel->X();
@@ -410,9 +410,8 @@ namespace SparkyStudios::UI::Pixel
             int x = position.x - X();
             int y = position.y - Y();
 
-            // If our parent has an innerpanel and we're a child of it
+            // If our parent has an inner panel, and we're a child of it
             // add its offset onto us.
-            //
             if (m_parent->m_innerPanel && m_parent->m_innerPanel->IsChild(this))
             {
                 x -= m_parent->m_innerPanel->X();
@@ -1016,6 +1015,10 @@ namespace SparkyStudios::UI::Pixel
     void Widget::OnMouseDoubleClick(const Point& position, MouseButton button)
     {
         OnMouseButton(position, button, KeyPressMode::Pressed);
+
+        EventInfo info(this);
+        info.data.mouseButton = button;
+        On(MouseDoubleClickEvent)->Call(this, info);
     }
 
     bool Widget::OnMouseWheel(const Point& delta)
