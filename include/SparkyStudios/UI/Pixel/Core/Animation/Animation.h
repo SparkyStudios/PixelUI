@@ -54,28 +54,58 @@ namespace SparkyStudios::UI::Pixel
         /**
          * @brief Create a custom animation transition function using
          * a one-dimensional cubic bezier curve.
+         *
+         * This use the exact same algorithm as in CSS. The first and last
+         * control points of the cubic bezier curve are fixed to (0,0)
+         * and (1,1) respectively.
          */
         struct Transition
         {
+        public:
             /**
-             * @brief The first control point of the curve.
+             * @brief Construct a new Transition curve.
+             *
+             * @param x1 The x coordinate of the second control point.
+             * @param y1 The y coordinate of the second control point.
+             * @param x2 The x coordinate of the third control point.
+             * @param y2 The y coordinate of the third control point.
              */
-            PiReal32 p1;
+            Transition(PiReal32 x1, PiReal32 y1, PiReal32 x2, PiReal32 y2);
 
             /**
-             * @brief The second control point of the curve.
+             * @brief Given an animation duration percentage (in the range [0, 1]),
+             * it calculates the animation progression percentage from the configured curve.
+             *
+             * @param t The animation duration percentage (in the range [0, 1]).
+             *
+             * @return The animation progress percentage (in the range [0, 1]).
              */
-            PiReal32 p2;
+            PiTime Ease(PiTime t) const;
 
             /**
-             * @brief The third control point of the curve.
+             * @brief The x coordinate of the second control point.
              */
-            PiReal32 p3;
+            PiReal32 x1;
 
             /**
-             * @brief The fourth control point of the curve.
+             * @brief The y coordinate of the second control point.
              */
-            PiReal32 p4;
+            PiReal32 y1;
+
+            /**
+             * @brief The x coordinate of the third control point.
+             */
+            PiReal32 x2;
+
+            /**
+             * @brief The y coordinate of the third control point.
+             */
+            PiReal32 y2;
+
+        private:
+            PiTime GetTFromX(PiReal64 x) const;
+
+            PiReal64 _samples[11];
         };
 
         /**
@@ -114,8 +144,9 @@ namespace SparkyStudios::UI::Pixel
          * @param duration The animation duration in seconds.
          * @param delay The animation delay in seconds.
          * @param ease The animation ease transition function.
+         * @param loop Defines if the animation should loop.
          */
-        Animation(PiTime duration, PiTime delay = 0.0f, TransitionFunction function = TransitionFunction::Linear);
+        Animation(PiTime duration, PiTime delay = 0.0f, TransitionFunction function = TransitionFunction::Linear, bool loop = false);
 
         virtual ~Animation() = default;
 
@@ -148,7 +179,7 @@ namespace SparkyStudios::UI::Pixel
         virtual bool Started();
 
         /**
-         * @brief Starts the animation.
+         * @brief Trigerred when the animation starts.
          */
         virtual void OnStart() = 0;
 
@@ -161,7 +192,7 @@ namespace SparkyStudios::UI::Pixel
         virtual void Run(PiTime percent) = 0;
 
         /**
-         * @brief Finishes the animation.
+         * @brief Trigerred when the animation finishes.
          */
         virtual void OnFinish() = 0;
 
@@ -190,7 +221,7 @@ namespace SparkyStudios::UI::Pixel
         /**
          * @brief Finishes the animation.
          */
-        virtual void Finish();
+        virtual void Finish(PiTime time);
 
         /**
          * @brief The widget on which this animation is applied.
@@ -234,6 +265,11 @@ namespace SparkyStudios::UI::Pixel
          * is set to Custom.
          */
         Transition m_customCurve;
+
+        /**
+         * @brief The animation loop behavior.
+         */
+        bool m_loop;
     };
 } // namespace SparkyStudios::UI::Pixel
 

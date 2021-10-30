@@ -26,20 +26,145 @@ namespace SparkyStudios::UI::Pixel
     static Animation::List gAnimationList = {};
 
     static Animation::Transition gLinearTransition = { 0.0f, 0.0f, 1.0f, 1.0f };
-    static Animation::Transition gEaseTransition = { 0.25f, 1.0f, 0.25f, 1.0f };
+    static Animation::Transition gEaseTransition = { 0.25f, 0.1f, 0.25f, 1.0f };
     static Animation::Transition gEaseInTransition = { 0.42f, 0.0f, 1.0f, 1.0f };
     static Animation::Transition gEaseOutTransition = { 0.0f, 0.0f, 0.58f, 1.0f };
     static Animation::Transition gEaseInOutTransition = { 0.42f, 0.0f, 0.58f, 1.0f };
 
-    static PiTime CalculateAnimationTime(PiTime time, const Animation::Transition& curve)
+    constexpr PiUInt32 kNewtonIterations = 4;
+    constexpr PiReal64 kNewtonMinSlope = 0.001;
+    constexpr PiReal64 kSubdivisionPrecision = 0.0000001;
+    constexpr PiUInt32 kSubdivisionMaxIterations = 10;
+
+    constexpr PiUInt32 kSplineTableSize = 11;
+    constexpr PiReal64 kSampleStepSize = 1.0 / (kSplineTableSize - 1.0);
+
+    static PiReal64 A(PiReal64 a1, PiReal64 a2)
     {
-        // clang-format off
-        return
-            curve.p1 * std::pow(1 - time, 3) +
-            3 * curve.p2 * std::pow(1 - time, 2) * time +
-            3 * curve.p3 * (1 - time) * std::pow(time, 2) +
-            curve.p4 * std::pow(time, 3);
-        // clang-format on
+        return 1.0 - 3.0 * a2 + 3.0 * a1;
+    }
+
+    static PiReal64 B(PiReal64 a1, PiReal64 a2)
+    {
+        return 3.0 * a2 - 6.0 * a1;
+    }
+
+    static PiReal64 C(PiReal64 a1)
+    {
+        return 3.0 * a1;
+    }
+
+    // Returns x(t) given t, x1, and x2, or y(t) given t, y1, and y2.
+    static PiReal64 CalculateBezier(PiReal64 t, PiReal64 a1, PiReal64 a2)
+    {
+        return ((A(a1, a2) * t + B(a1, a2)) * t + C(a1)) * t;
+    }
+
+    // Returns dx/dt given t, x1, and x2, or dy/dt given t, y1, and y2.
+    static PiReal64 GetSlope(PiReal64 t, PiReal64 a1, PiReal64 a2)
+    {
+        return 3.0 * A(a1, a2) * t * t + 2.0 * B(a1, a2) * t + C(a1);
+    }
+
+    static PiReal64 BinarySubdivide(PiReal64 x, PiReal64 a, PiReal64 b, PiReal64 mX1, PiReal64 mX2)
+    {
+        PiReal64 currentX, currentT, i = 0;
+        do
+        {
+            currentT = a + (b - a) / 2.0;
+            currentX = CalculateBezier(currentT, mX1, mX2) - x;
+            if (currentX > 0.0)
+            {
+                b = currentT;
+            }
+            else
+            {
+                a = currentT;
+            }
+        } while (std::abs(currentX) > kSubdivisionPrecision && ++i < kSubdivisionMaxIterations);
+
+        return currentT;
+    }
+
+    static PiReal64 NewtonRaphsonIterate(PiReal64 x, PiReal64 aGuessT, PiReal64 mX1, PiReal64 mX2)
+    {
+        for (PiUInt32 i = 0; i < kNewtonIterations; ++i)
+        {
+            PiReal64 currentSlope = GetSlope(aGuessT, mX1, mX2);
+            if (currentSlope == 0.0)
+            {
+                return aGuessT;
+            }
+
+            PiReal64 currentX = CalculateBezier(aGuessT, mX1, mX2) - x;
+            aGuessT -= currentX / currentSlope;
+        }
+
+        return aGuessT;
+    }
+
+    static PiReal64 LinearEasing(PiReal64 x)
+    {
+        return x;
+    }
+
+    Animation::Transition::Transition(PiReal32 x1_, PiReal32 y1_, PiReal32 x2_, PiReal32 y2_)
+        : x1(x1_)
+        , y1(y1_)
+        , x2(x2_)
+        , y2(y2_)
+    {
+        for (PiUInt32 i = 0; i < kSplineTableSize; ++i)
+        {
+            _samples[i] = CalculateBezier(i * kSampleStepSize, x1, x2);
+        }
+    }
+
+    PiTime Animation::Transition::GetTFromX(PiReal64 x) const
+    {
+        PiReal64 intervalStart = 0.0;
+        PiUInt32 currentSample = 1;
+        PiUInt32 lastSample = kSplineTableSize - 1;
+
+        for (; currentSample != lastSample && _samples[currentSample] <= x; ++currentSample)
+        {
+            intervalStart += kSampleStepSize;
+        }
+        --currentSample;
+
+        // Interpolate to provide an initial guess for t
+        PiReal64 dist = (x - _samples[currentSample]) / (_samples[currentSample + 1] - _samples[currentSample]);
+        PiReal64 guessForT = intervalStart + dist * kSampleStepSize;
+
+        PiReal64 initialSlope = GetSlope(guessForT, x1, x2);
+        if (initialSlope >= kNewtonMinSlope)
+        {
+            return NewtonRaphsonIterate(x, guessForT, x1, x2);
+        }
+        else if (initialSlope == 0.0)
+        {
+            return guessForT;
+        }
+        else
+        {
+            return BinarySubdivide(x, intervalStart, intervalStart + kSampleStepSize, x1, x2);
+        }
+    }
+
+    PiTime Animation::Transition::Ease(PiTime t) const
+    {
+        if (x1 == x2 && y1 == y2)
+        {
+            return LinearEasing(t);
+        }
+
+        // Don't waste time calculating extreme values.
+        if (t <= 0.0 || t >= 1.0)
+        {
+            return t;
+        }
+
+        return CalculateBezier(GetTFromX(t), y1, y2);
     }
 
     void Animation::Add(Widget* widget, Animation* animation)
@@ -95,14 +220,15 @@ namespace SparkyStudios::UI::Pixel
         }
     }
 
-    Animation::Animation(PiTime duration, PiTime delay, Animation::TransitionFunction function)
+    Animation::Animation(PiTime duration, PiTime delay, Animation::TransitionFunction function, bool loop)
         : m_started(false)
         , m_finished(false)
         , m_start(0.0)
         , m_duration(duration)
         , m_delay(delay)
         , m_ease(function)
-        , m_customCurve()
+        , m_customCurve(gLinearTransition)
+        , m_loop(loop)
     {}
 
     void Animation::SetTransition(const Transition& curve)
@@ -158,27 +284,30 @@ namespace SparkyStudios::UI::Pixel
         if (m_finished)
             return;
 
+        if (!m_started)
+            Start(time);
+
         const PiTime elapsed = time - m_start;
 
         if (elapsed < 0.0)
             return;
 
-        if (!m_started)
-            Start(time);
-
         const PiTime percent = Clamp(elapsed / m_duration, 0.0, 1.0);
-        const PiTime eased = CalculateAnimationTime(percent, GetTransition());
+        const PiTime eased = GetTransition().Ease(percent);
 
         Run(eased);
 
         if (percent >= 1.0)
-            Finish();
+            Finish(time);
     }
 
-    void Animation::Finish()
+    void Animation::Finish(PiTime time)
     {
-        m_finished = true;
+        m_finished = !m_loop;
         OnFinish();
+
+        if (m_loop)
+            m_started = false;
     }
 } // namespace SparkyStudios::UI::Pixel
 
