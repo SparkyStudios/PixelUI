@@ -74,7 +74,7 @@ namespace SparkyStudios::UI::Pixel
     {}
 
     MainWindow::MainWindow(const Size& size, const PiString& title, int flags)
-        : MainWindow(size.x, size.y, title, flags)
+        : MainWindow(size.w, size.h, title, flags)
     {}
 
     MainWindow::~MainWindow()
@@ -91,7 +91,7 @@ namespace SparkyStudios::UI::Pixel
 
         al_set_new_display_flags(TranslateToAllegroFlags(_flags) | ALLEGRO_GENERATE_EXPOSE_EVENTS);
 
-        _nativeHandle = al_create_display(_size.x, _size.y);
+        _nativeHandle = al_create_display(_size.w, _size.h);
 
         if (!_nativeHandle)
             return;
@@ -139,7 +139,7 @@ namespace SparkyStudios::UI::Pixel
 
     void MainWindow::SetSize(const Size& size)
     {
-        al_resize_display(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), size.x, size.y);
+        al_resize_display(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), size.w, size.h);
         _size = size;
     }
 

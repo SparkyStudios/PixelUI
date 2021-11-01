@@ -53,7 +53,7 @@ namespace SparkyStudios::UI::Pixel
         void SetRenderer(BaseRenderer* renderer) override;
 
         void DrawCachedWidgetTexture(CacheHandle control) override;
-        void CreateWidgetCacheTexture(CacheHandle control, const Point& size) override;
+        void CreateWidgetCacheTexture(CacheHandle control, const Size& size) override;
         void UpdateWidgetCacheTexture(CacheHandle control) override;
 
         // TODO: Why destroys the cached textures? Does this assume they always exist?

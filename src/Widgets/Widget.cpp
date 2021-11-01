@@ -245,7 +245,7 @@ namespace SparkyStudios::UI::Pixel
     [[maybe_unused]] bool Widget::SizeToChildren(bool width, bool height)
     {
         Size size = ChildrenSize();
-        return SetSize(width ? size.x + m_padding.right : m_bounds.w, height ? size.y + m_padding.bottom : m_bounds.h);
+        return SetSize(width ? size.w + m_padding.right : m_bounds.w, height ? size.h + m_padding.bottom : m_bounds.h);
     }
 
     Size Widget::ChildrenSize() const
@@ -260,8 +260,8 @@ namespace SparkyStudios::UI::Pixel
             if (!child->ShouldIncludeInSize())
                 continue;
 
-            size.x = (std::max)(size.x, child->Right());
-            size.y = (std::max)(size.y, child->Bottom());
+            size.w = (std::max)(size.w, child->Right());
+            size.h = (std::max)(size.h, child->Bottom());
         }
 
         return size;

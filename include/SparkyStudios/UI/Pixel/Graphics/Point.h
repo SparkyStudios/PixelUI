@@ -55,23 +55,45 @@ namespace SparkyStudios::UI::Pixel
             return Point(x - p.x, y - p.y);
         }
 
-        union
-        {
-            // Position
-            struct
-            {
-                PiInt32 x, y;
-            };
-
-            // Size
-            struct
-            {
-                PiInt32 w, h;
-            };
-        };
+        PiInt32 x, y;
     };
 
-    typedef Point Size;
+    struct PI_EXPORT Size
+    {
+        explicit Size(PiInt32 w_ = 0, PiInt32 h_ = 0)
+            : w(w_)
+            , h(h_)
+        {}
+
+        void Set(PiInt32 w_, PiInt32 h_)
+        {
+            w = w_, h = h_;
+        }
+
+        void operator+=(const Size& p)
+        {
+            w += p.w;
+            h += p.h;
+        }
+
+        Size operator+(const Size& p) const
+        {
+            return Size(w + p.w, p.h + h);
+        }
+
+        void operator-=(const Size& p)
+        {
+            w -= p.w;
+            h -= p.h;
+        }
+
+        Size operator-(const Size& p) const
+        {
+            return Size(w - p.w, h - p.h);
+        }
+
+        PiInt32 w, h;
+    };
 } // namespace SparkyStudios::UI::Pixel
 
 #endif // PIXEL_UI_POINT_H

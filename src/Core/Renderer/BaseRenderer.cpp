@@ -222,8 +222,8 @@ namespace SparkyStudios::UI::Pixel
     Size BaseRenderer::MeasureText(const Font& font, const PiString& text)
     {
         Size p;
-        p.x = font.size * GetScale() * text.length() * 0.4f;
-        p.y = font.size * GetScale();
+        p.w = font.size * GetScale() * text.length() * 0.4f;
+        p.h = font.size * GetScale();
         return p;
     }
 

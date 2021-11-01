@@ -74,13 +74,13 @@ namespace SparkyStudios::UI::Pixel
         }
     }
 
-    void CacheToTexture_Allegro::CreateWidgetCacheTexture(CacheHandle control, const Point& size)
+    void CacheToTexture_Allegro::CreateWidgetCacheTexture(CacheHandle control, const Size& size)
     {
         // If we haven't seen this control before, create a new one
         if (_cache.find(control) == _cache.end())
         {
             al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-            CacheEntry newEntry = { al_create_bitmap(size.x, size.y) };
+            CacheEntry newEntry = { al_create_bitmap(size.w, size.h) };
             _cache[control] = newEntry;
         }
     }
@@ -136,7 +136,7 @@ namespace SparkyStudios::UI::Pixel
     {
         Translate(rect);
         const PiReal32 fx = rect.x + 0.5f, fy = rect.y + 0.5f;
-        al_draw_filled_rounded_rectangle(fx, fy, fx + rect.w, fy + rect.h, radii.x, radii.y, _color);
+        al_draw_filled_rounded_rectangle(fx, fy, fx + rect.w, fy + rect.h, radii.w, radii.h, _color);
     }
 
     void Renderer_Allegro::DrawTexturedRect(const Texture& texture, Rect rect, PiReal32 u1, PiReal32 v1, PiReal32 u2, PiReal32 v2)
@@ -166,7 +166,7 @@ namespace SparkyStudios::UI::Pixel
     {
         Translate(rect);
         const PiReal32 offset = (thickness * 0.5f), fx = rect.x + offset, fy = rect.y + offset;
-        al_draw_rounded_rectangle(fx, fy, fx + rect.w - thickness, fy + rect.h - thickness, radii.x, radii.y, _color, thickness);
+        al_draw_rounded_rectangle(fx, fy, fx + rect.w - thickness, fy + rect.h - thickness, radii.w, radii.h, _color, thickness);
     }
 
     void Renderer_Allegro::DrawFilledEllipse(Rect rect)

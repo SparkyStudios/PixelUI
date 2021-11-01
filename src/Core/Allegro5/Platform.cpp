@@ -52,8 +52,8 @@ namespace SparkyStudios::UI::Pixel
             al_get_monitor_info(0, &info);
 
             Size s;
-            s.x = info.x2 - info.x1;
-            s.y = info.y2 - info.y1;
+            s.w = info.x2 - info.x1;
+            s.h = info.y2 - info.y1;
 
             return s;
         }

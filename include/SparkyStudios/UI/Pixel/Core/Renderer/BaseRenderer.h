@@ -44,7 +44,7 @@ namespace SparkyStudios::UI::Pixel
         virtual void SetupCacheTexture(CacheHandle widget) = 0;
         virtual void FinishCacheTexture(CacheHandle widget) = 0;
         virtual void DrawCachedWidgetTexture(CacheHandle widget) = 0;
-        virtual void CreateWidgetCacheTexture(CacheHandle widget, const Point& size) = 0;
+        virtual void CreateWidgetCacheTexture(CacheHandle widget, const Size& size) = 0;
         virtual void UpdateWidgetCacheTexture(CacheHandle widget) = 0;
         virtual void SetRenderer(BaseRenderer* renderer) = 0;
     };
