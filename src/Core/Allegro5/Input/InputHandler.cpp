@@ -112,8 +112,8 @@ namespace SparkyStudios::UI::Pixel
                 const PiInt32 dx = event.mouse.dx;
                 const PiInt32 dy = event.mouse.dy;
 
-                if (event.mouse.dz != 0)
-                    return m_eventListener->OnMouseWheel(event.mouse.dw * 60, event.mouse.dz * 60);
+                if (event.mouse.dz != 0 || event.mouse.dw != 0)
+                    return m_eventListener->OnMouseWheel(-event.mouse.dw, event.mouse.dz);
 
                 m_mouseX = event.mouse.x;
                 m_mouseY = event.mouse.y;
