@@ -1098,6 +1098,28 @@ namespace SparkyStudios::UI::Pixel
         return false;
     }
 
+    bool Widget::HandleAccelerator(const PiString& accelerator)
+    {
+        if (Canvas::GetKeyboardFocusedWidget() == this || !AccelOnlyOnFocus())
+        {
+            AccelMap::iterator iter = m_accelerators.find(accelerator);
+
+            if (iter != m_accelerators.end())
+            {
+                iter->second->Call(this);
+                return true;
+            }
+        }
+
+        for (auto&& child : m_children)
+        {
+            if (child->HandleAccelerator(accelerator))
+                return true;
+        }
+
+        return false;
+    }
+
     bool Widget::ShouldClip()
     {
         return true;

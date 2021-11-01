@@ -847,6 +847,29 @@ namespace SparkyStudios::UI::Pixel
 
 #endif // PI_ENABLE_ANIMATION
 
+        /**
+         * @brief Adds an event listener using an accelerator.
+         *
+         * @tparam T The event handler class type.
+         *
+         * @param accelerator The accelerator command as string.
+         * @param func A pointer to a class method from the event handler.
+         * @param handler The event handler.
+         */
+        template<typename T>
+        void AddAccelerator(const PiString& accelerator, void (T::*func)(EventInfo), EventHandler* handler = nullptr)
+        {
+            if (handler == nullptr)
+                handler = this;
+
+            EventListener* listener = new EventListener();
+            listener->Add(handler, func);
+            PiString str = accelerator;
+            Utility::Strings::ToUpper(str);
+            Utility::Strings::Strip(str, " ");
+            m_accelerators[str] = listener;
+        }
+
     protected:
         /**
          * @brief Adds a child widget to this widget.
@@ -1016,6 +1039,15 @@ namespace SparkyStudios::UI::Pixel
          * @brief Defines whether accelerators should be processed only on focus.
          */
         virtual bool AccelOnlyOnFocus();
+
+        /**
+         * @brief Handle the accelerator with the specified name.
+         *
+         * @param accel The accelerator name.
+         *
+         * @return Whether the accelerator has been handled.
+         */
+        virtual bool HandleAccelerator(const PiString& accel);
 
         /**
          * @brief Returns whether the renderer should use a clip region
