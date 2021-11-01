@@ -36,10 +36,10 @@ namespace SparkyStudios::UI::Pixel
 
     Application::~Application()
     {
+        delete _mainWindow;
+
         delete _skin;
         delete _renderer;
-
-        delete _mainWindow;
 
         al_destroy_event_queue(gEventQueue);
         al_destroy_timer(gTimer);
