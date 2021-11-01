@@ -41,6 +41,7 @@ namespace SparkyStudios::UI::Pixel
         Point point;
 
         PiString string;
+        bool boolean;
         PiInt8 int8;
         PiInt16 int16;
         PiInt32 int32;
