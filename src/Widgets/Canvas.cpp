@@ -177,11 +177,12 @@ namespace SparkyStudios::UI::Pixel
 
     bool Canvas::Input::OnMouseButton(Widget* canvas, MouseButton mouseButton, MouseButtonPressMode mode)
     {
+        bool down = mode == MouseButtonPressMode::Pressed;
+
         // If we click on a control that isn't a menu we want to close
         // all the open menus. Menus are children of the canvas.
-        // TODO
-        //        if (down && (!gHoveredWidget || !gHoveredWidget->IsMenuComponent()))
-        //            canvas->CloseMenus();
+        if (down && !(gHoveredWidget != nullptr && gHoveredWidget->IsMenuWidget()))
+            pi_cast<Canvas*>(canvas)->CloseMenus();
 
         if (!gHoveredWidget)
             return false;
@@ -197,8 +198,6 @@ namespace SparkyStudios::UI::Pixel
 
         if (static_cast<PiUInt32>(mouseButton) > kMaxMouseButtons)
             return false;
-
-        bool down = mode == MouseButtonPressMode::Pressed;
 
         if (static_cast<PiUInt32>(mouseButton) == 0)
             gKeyData.LeftMouseDown = down;

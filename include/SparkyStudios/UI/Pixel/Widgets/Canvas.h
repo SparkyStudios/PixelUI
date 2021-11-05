@@ -20,6 +20,7 @@
 #include <set>
 
 #include <SparkyStudios/UI/Pixel/Core/Input/IInputEventListener.h>
+#include <SparkyStudios/UI/Pixel/Widgets/Containers/Menu.h>
 #include <SparkyStudios/UI/Pixel/Widgets/Widget.h>
 
 namespace SparkyStudios::UI::Pixel
@@ -30,11 +31,11 @@ namespace SparkyStudios::UI::Pixel
         : public Widget
         , public IInputEventListener
     {
-        PI_CLASS(Canvas, Widget)
-
         friend class Widget;
 
     public:
+        PI_WIDGET(Canvas, Widget);
+
         class PI_EXPORT Input
         {
         public:
@@ -134,6 +135,15 @@ namespace SparkyStudios::UI::Pixel
         Canvas* GetCanvas() override
         {
             return this;
+        }
+
+        void CloseMenus()
+        {
+            for (auto&& child : m_children)
+            {
+                if (auto* menu = pi_cast<Menu*>(child); menu != nullptr)
+                    menu->Close();
+            }
         }
 
         virtual void SetScale(float f);

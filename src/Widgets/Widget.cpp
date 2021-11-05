@@ -1392,4 +1392,9 @@ namespace SparkyStudios::UI::Pixel
 
     void Widget::PostLayout(Skin* skin)
     {}
+
+    bool Widget::IsMenuWidget() const
+    {
+        return false;
+    }
 } // namespace SparkyStudios::UI::Pixel

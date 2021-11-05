@@ -1127,6 +1127,16 @@ namespace SparkyStudios::UI::Pixel
         virtual void PostLayout(Skin* skin);
 
         /**
+         * @brief Checks if this widget is currently a part of a menu widget.
+         *
+         * This is used to determine whether to automatically close opened menus
+         * when this widget is clicked.
+         *
+         * @return Whether the widget is currently a part of a menu widget.
+         */
+        virtual bool IsMenuWidget() const;
+
+        /**
          * @brief The logical parent of this widget.
          */
         Widget* m_parent;
