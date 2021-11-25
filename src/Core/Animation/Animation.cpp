@@ -169,7 +169,7 @@ namespace SparkyStudios::UI::Pixel
 
     void Animation::Add(Widget* widget, Animation* animation)
     {
-        animation->m_control = widget;
+        animation->m_widget = widget;
         gAnimatedWidgets[widget].push_back(animation);
         gAnimationList.push_back(animation);
     }
@@ -186,7 +186,7 @@ namespace SparkyStudios::UI::Pixel
         {
             for (auto it = gAnimationList.begin(); it != gAnimationList.end();)
             {
-                if ((*it)->m_control != widget)
+                if ((*it)->m_widget != widget)
                 {
                     ++it;
                     continue;

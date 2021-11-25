@@ -226,7 +226,7 @@ namespace SparkyStudios::UI::Pixel
         /**
          * @brief The widget on which this animation is applied.
          */
-        Widget* m_control;
+        Widget* m_widget;
 
         /**
          * @brief Indicates if the animation has started.

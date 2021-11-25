@@ -30,19 +30,19 @@ namespace SparkyStudios::UI::Pixel
 
     void HeightAnimation::OnStart()
     {
-        m_control->SetHeight(m_startHeight);
+        m_widget->SetHeight(m_startHeight);
     }
 
     void HeightAnimation::Run(PiTime percent)
     {
-        const PiInt32 h = m_control->Height();
+        const PiInt32 h = m_widget->Height();
         if (h < m_endHeight)
-            m_control->SetHeight(m_startHeight + m_delta * percent);
+            m_widget->SetHeight(m_startHeight + m_delta * percent);
     }
 
     void HeightAnimation::OnFinish()
     {
-        m_control->SetHeight(m_endHeight);
+        m_widget->SetHeight(m_endHeight);
     }
 } // namespace SparkyStudios::UI::Pixel
 

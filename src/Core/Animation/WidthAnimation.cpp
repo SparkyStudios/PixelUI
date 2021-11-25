@@ -30,19 +30,19 @@ namespace SparkyStudios::UI::Pixel
 
     void WidthAnimation::OnStart()
     {
-        m_control->SetWidth(m_startWidth);
+        m_widget->SetWidth(m_startWidth);
     }
 
     void WidthAnimation::Run(PiTime percent)
     {
-        const PiInt32 w = m_control->Width();
+        const PiInt32 w = m_widget->Width();
         if (w < m_endWidth)
-            m_control->SetWidth(m_startWidth + m_delta * percent);
+            m_widget->SetWidth(m_startWidth + m_delta * percent);
     }
 
     void WidthAnimation::OnFinish()
     {
-        m_control->SetWidth(m_endWidth);
+        m_widget->SetWidth(m_endWidth);
     }
 } // namespace SparkyStudios::UI::Pixel
 
