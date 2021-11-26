@@ -65,7 +65,7 @@ namespace SparkyStudios::UI::Pixel
     /**
      * @brief Configures padding around a widget.
      */
-    typedef Margin Padding;
+    using Padding = Margin;
 
     /**
      * @brief HSV representation of a color.
@@ -127,8 +127,24 @@ namespace SparkyStudios::UI::Pixel
     /**
      * @brief Maps strings to event listeners.
      */
-    typedef std::map<PiString, EventListener*> AccelMap;
+    using AccelMap = std::map<PiString, EventListener*>;
 
+    /**
+     * @brief Store a range value.
+     */
+    template<typename T>
+    struct Range
+    {
+        /**
+         * @brief The start value of the range.
+         */
+        T start;
+
+        /**
+         * @brief The end value of the range.
+         */
+        T end;
+    };
 } // namespace SparkyStudios::UI::Pixel
 
 #endif // PIXEL_UI_BASE_H
