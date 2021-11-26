@@ -148,6 +148,16 @@ namespace SparkyStudios::UI::Pixel
         return EXIT_SUCCESS;
     }
 
+    Skin* Application::GetSkin() const
+    {
+        return _skin;
+    }
+
+    const MainWindow* Application::GetMainWindow() const
+    {
+        return _mainWindow;
+    }
+
     Application::Application()
         : _initialized(false)
         , _mainWindow(nullptr)

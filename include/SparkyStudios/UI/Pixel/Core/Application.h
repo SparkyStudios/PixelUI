@@ -81,7 +81,12 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The application skin.
          */
-        Skin* GetSkin() const;
+        [[nodiscard]] Skin* GetSkin() const;
+
+        /**
+         * @brief Returns the MainWindow associated to this Application.
+         */
+        [[nodiscard]] const MainWindow* GetMainWindow() const;
 
     private:
         Application();

@@ -17,6 +17,7 @@
 #ifndef PIXEL_UI_MAINWINDOW_H
 #define PIXEL_UI_MAINWINDOW_H
 
+#include <SparkyStudios/UI/Pixel/Config/Config.h>
 #include <SparkyStudios/UI/Pixel/Config/Types.h>
 
 #include <SparkyStudios/UI/Pixel/Core/Input/Mouse.h>
@@ -75,9 +76,6 @@ namespace SparkyStudios::UI::Pixel
 
         [[nodiscard]] Cursor* GetCursor() const;
         void SetCursorStyle(CursorStyle style);
-
-        [[nodiscard]] PiString GetClipboardText() const;
-        bool SetClipboardText(const PiString& str);
 
         bool FileOpen(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut);
         bool FileSave(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut);
