@@ -35,26 +35,27 @@ namespace SparkyStudios::UI::Pixel
     enum class CursorStyle
     {
         Arrow = 0,
+        Default = Arrow,
         Edit = 1,
-        IBeam = 1,
+        IBeam = Edit,
         ResizeV = 2,
         ResizeH = 3,
-        ResizeNS = 2,
-        ResizeWE = 3,
+        ResizeNS = ResizeV,
+        ResizeWE = ResizeH,
         ResizeNW = 4,
         ResizeNE = 5,
-        ResizeSE = 4,
-        ResizeSW = 5,
-        ResizeNWSE = 4,
-        ResizeNESW = 5,
+        ResizeSE = ResizeNW,
+        ResizeSW = ResizeNE,
+        ResizeNWSE = ResizeNW,
+        ResizeNESW = ResizeNE,
         ResizeMove = 6,
-        ResizeAll = 6,
+        ResizeAll = ResizeMove,
         No = 7,
-        Unavailable = 7,
+        Unavailable = No,
         Busy = 8,
-        Wait = 8,
+        Wait = Busy,
         Link = 9,
-        Hand = 9,
+        Hand = Link,
         MAX
     };
 
@@ -65,7 +66,7 @@ namespace SparkyStudios::UI::Pixel
 
         void ApplyStyle(CursorStyle style);
 
-        const Point& GetPosition() const;
+        Point GetPosition() const;
 
         void SetPosition(const Point& position);
 

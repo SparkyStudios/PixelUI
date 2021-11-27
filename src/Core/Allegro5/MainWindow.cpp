@@ -58,11 +58,12 @@ namespace SparkyStudios::UI::Pixel
 
     MainWindow::MainWindow(PiInt32 x, PiInt32 y, PiUInt32 width, PiUInt32 height, const PiString& title, int flags)
         : _nativeHandle(nullptr)
-        , _cursor(new Cursor(this))
+        , _flags(flags)
+        , _title(title)
         , _position(x, y)
         , _size(width, height)
-        , _title(title)
-        , _flags(flags)
+        , _cursor(new Cursor(this))
+        , _defaultCursorStyle(CursorStyle::Default)
     {}
 
     MainWindow::MainWindow(PiUInt32 width, PiUInt32 height, const PiString& title, int flags)
@@ -174,32 +175,24 @@ namespace SparkyStudios::UI::Pixel
         return _cursor;
     }
 
-    void MainWindow::SetCursorStyle(CursorStyle style)
+    void MainWindow::SetDefaultCursorStyle(CursorStyle style)
+    {
+        _defaultCursorStyle = style;
+    }
+
+    CursorStyle MainWindow::GetDefaultCursorStyle() const
+    {
+        return _defaultCursorStyle;
+    }
+
+    void MainWindow::ApplyCursorStyle(CursorStyle style) const
     {
         _cursor->ApplyStyle(style);
     }
 
-    PiString MainWindow::GetClipboardText() const
+    void MainWindow::ApplyDefaultCursorStyle() const
     {
-        PiString str;
-
-        if (al_clipboard_has_text(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle)))
-        {
-            char* clip = al_get_clipboard_text(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle));
-
-            if (clip != nullptr)
-            {
-                str = clip;
-                al_free(clip);
-            }
-        }
-
-        return str;
-    }
-
-    bool MainWindow::SetClipboardText(const PiString& str)
-    {
-        return al_set_clipboard_text(static_cast<ALLEGRO_DISPLAY*>(_nativeHandle), str.c_str());
+        _cursor->ApplyStyle(_defaultCursorStyle);
     }
 
     bool MainWindow::FileOpen(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut)

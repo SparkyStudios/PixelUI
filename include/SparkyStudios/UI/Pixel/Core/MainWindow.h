@@ -75,7 +75,10 @@ namespace SparkyStudios::UI::Pixel
         [[nodiscard]] const Point& GetPosition() const;
 
         [[nodiscard]] Cursor* GetCursor() const;
-        void SetCursorStyle(CursorStyle style);
+        void SetDefaultCursorStyle(CursorStyle style);
+        [[nodiscard]] CursorStyle GetDefaultCursorStyle() const;
+        void ApplyCursorStyle(CursorStyle style) const;
+        void ApplyDefaultCursorStyle() const;
 
         bool FileOpen(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut);
         bool FileSave(const PiString& name, const PiString& startPath, const PiString& extension, PiString& filePathOut);
@@ -96,6 +99,7 @@ namespace SparkyStudios::UI::Pixel
         Size _size;
 
         Cursor* _cursor;
+        CursorStyle _defaultCursorStyle;
 
         std::unique_ptr<Canvas> _rootCanvas;
     };

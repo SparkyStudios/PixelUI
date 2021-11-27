@@ -146,7 +146,7 @@ namespace SparkyStudios::UI::Pixel
          * @param ease The animation ease transition function.
          * @param loop Defines if the animation should loop.
          */
-        Animation(PiTime duration, PiTime delay = 0.0f, TransitionFunction function = TransitionFunction::Linear, bool loop = false);
+        Animation(PiTime duration, PiTime delay = 0.0, TransitionFunction function = TransitionFunction::Linear, bool loop = false);
 
         virtual ~Animation() = default;
 

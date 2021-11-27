@@ -52,7 +52,7 @@ namespace SparkyStudios::UI::Pixel
         : _mainWindow(mainWindow)
     {}
 
-    const Point& Cursor::GetPosition() const
+    Point Cursor::GetPosition() const
     {
         ALLEGRO_MOUSE_STATE mouse;
         al_get_mouse_state(&mouse);
