@@ -452,6 +452,9 @@ namespace SparkyStudios::UI::Pixel
         renderer->SetRenderOffset(oldRenderOffset);
     }
 
+    PI_WIDGET_CONSTRUCTOR(Canvas)
+    {}
+
     Canvas::Canvas(MainWindow* window, Skin* skin)
         : ParentClass(nullptr)
     {
