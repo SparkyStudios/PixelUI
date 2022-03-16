@@ -64,7 +64,7 @@ namespace SparkyStudios::UI::Pixel
         ALLEGRO_BITMAP* _oldTarget;
     };
 
-    class PI_EXPORT Renderer_Allegro : public BaseRenderer
+    class Renderer_Allegro : public BaseRenderer
     {
         template<typename T>
         using deleted_unique_ptr = std::unique_ptr<T, std::function<void(T*)>>;
