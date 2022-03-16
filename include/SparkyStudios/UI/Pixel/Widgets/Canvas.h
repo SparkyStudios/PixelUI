@@ -50,10 +50,10 @@ namespace SparkyStudios::UI::Pixel
             };
 
             // For use in panels
-            static bool PI_EXPORT IsKeyDown(Key key);
-            static bool PI_EXPORT IsLeftMouseDown();
-            static bool PI_EXPORT IsRightMouseDown();
-            static Point PI_EXPORT GetMousePosition();
+            static bool IsKeyDown(Key key);
+            static bool IsLeftMouseDown();
+            static bool IsRightMouseDown();
+            static Point GetMousePosition();
 
             static inline bool IsShiftDown()
             {
@@ -71,13 +71,13 @@ namespace SparkyStudios::UI::Pixel
             }
 
             // Does copy, paste etc
-            static bool PI_EXPORT HandleAccelerator(Widget* canvas, char chr);
+            static bool HandleAccelerator(Widget* canvas, char chr);
 
             // Send input to canvas for study
-            static void PI_EXPORT OnMouseMove(Widget* canvas, int x, int y, int deltaX, int deltaY);
-            static bool PI_EXPORT OnMouseButton(Widget* canvas, MouseButton mouseButton, MouseButtonPressMode mode);
-            static bool PI_EXPORT OnKey(Widget* canvas, Key key, KeyPressMode mode);
-            static void PI_EXPORT OnCanvasThink(Widget* widget);
+            static void OnMouseMove(Widget* canvas, int x, int y, int deltaX, int deltaY);
+            static bool OnMouseButton(Widget* canvas, MouseButton mouseButton, MouseButtonPressMode mode);
+            static bool OnKey(Widget* canvas, Key key, KeyPressMode mode);
+            static void OnCanvasThink(Widget* widget);
         };
 
         static void UpdateHoveredControl(Widget* widget);

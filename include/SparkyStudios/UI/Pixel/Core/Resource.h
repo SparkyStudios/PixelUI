@@ -27,7 +27,7 @@ namespace SparkyStudios::UI::Pixel
     /**
      * @brief Generate paths to application resources.
      */
-    class ResourcePaths
+    class PI_EXPORT ResourcePaths
     {
     public:
         /**
@@ -74,7 +74,7 @@ namespace SparkyStudios::UI::Pixel
     /**
      * @brief Calculate application resources paths relatively to the executable path.
      */
-    class RelativeToExecutableResourcePaths : public ResourcePaths
+    class PI_EXPORT RelativeToExecutableResourcePaths : public ResourcePaths
     {
     public:
         /**
