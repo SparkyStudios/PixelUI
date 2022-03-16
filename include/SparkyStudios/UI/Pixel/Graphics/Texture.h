@@ -53,6 +53,7 @@ namespace SparkyStudios::UI::Pixel
         TextureData()
             : width(0.f)
             , height(0.f)
+            , readable(false)
         {}
 
         float width;
