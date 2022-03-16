@@ -22,9 +22,12 @@
 
 #include <SparkyStudios/UI/Pixel/Core/Application.h>
 #include <SparkyStudios/UI/Pixel/Core/MainWindow.h>
+#include <SparkyStudios/UI/Pixel/Core/Utility.h>
 
 #include <SparkyStudios/UI/Pixel/Graphics/Color.h>
 #include <SparkyStudios/UI/Pixel/Graphics/Point.h>
 #include <SparkyStudios/UI/Pixel/Graphics/Rect.h>
+
+#include <SparkyStudios/UI/Pixel/Widgets/Canvas.h>
 
 #endif // PIXEL_UI_PIXEL_H

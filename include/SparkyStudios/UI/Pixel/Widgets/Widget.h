@@ -24,6 +24,7 @@
 #include <SparkyStudios/UI/Pixel/Core/Events/EventListener.h>
 #include <SparkyStudios/UI/Pixel/Core/Input/IInputEventListener.h>
 #include <SparkyStudios/UI/Pixel/Core/Renderer/Skin.h>
+#include <SparkyStudios/UI/Pixel/Core/Utility.h>
 
 #include <SparkyStudios/UI/Pixel/Widgets/Base.h>
 
