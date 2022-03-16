@@ -14,11 +14,15 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(PROJECT_N pixel-ui)
+set(PROJECT_N Pixel)
 project(${PROJECT_N} VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if (NOT DEFINED COMPILE_MODE)
+  set(COMPILE_MODE "STATIC")
+endif()
 
 set(ALLEGRO_COMPONENTS
   dialog
@@ -31,7 +35,7 @@ set(ALLEGRO_COMPONENTS
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
 # Search fo Allgro5 libraries
-find_package(Allegro5 COMPONENTS ${ALLEGRO_COMPONENTS} REQUIRED)
+find_package(unofficial-allegro5 COMPONENTS ${ALLEGRO_COMPONENTS} REQUIRED)
 
 file(GLOB_RECURSE SRCS
   ${PROJECT_SOURCE_DIR}/src/**.cpp
@@ -42,25 +46,22 @@ file(GLOB_RECURSE SRCS
   ${PROJECT_SOURCE_DIR}/include/*.h
 )
 
-if (DEFINED COMPILE_MODE)
-  add_definitions(-DPI_COMPILE_${COMPILE_MODE})
+add_definitions(-DPI_COMPILE_${COMPILE_MODE})
+add_definitions(-DALLEGRO_${COMPILE_MODE}LINK)
 
-  if(COMPILE_MODE STREQUAL "SHARED")
-    add_library(${PROJECT_N} SHARED ${SRCS})
-  elseif(COMPILE_MODE STREQUAL "STATIC")
-    add_library(${PROJECT_N} STATIC ${SRCS})
-  else()
-    message(ERROR "Bad compile mode value.")
-  endif()
-endif()
+add_library(${PROJECT_N} ${COMPILE_MODE} ${SRCS})
 
-target_link_libraries(${PROJECT_N} PRIVATE Allegro::Allegro)
+target_link_libraries(${PROJECT_N} PRIVATE unofficial-allegro5::allegro)
 foreach(component ${ALLEGRO_COMPONENTS})
-  target_link_libraries(${PROJECT_N} PRIVATE Allegro::${component})
+  target_link_libraries(${PROJECT_N} PRIVATE unofficial-allegro5::allegro_${component})
 endforeach()
 
+find_path(Allegro5_INCLUDE_DIR
+  NAMES "allegro5/allegro.h" "allegro5/allegro5.h"
+)
+
 target_include_directories(${PROJECT_N}
-  PRIVATE ${Allegro_INCLUDE_DIR}
+  PRIVATE ${Allegro5_INCLUDE_DIR}
   PUBLIC include src
 )
 
