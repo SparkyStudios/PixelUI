@@ -77,6 +77,14 @@ namespace SparkyStudios::UI::Pixel
         int Run();
 
         /**
+         * @brief Quits the application.
+         *
+         * This method manually terminates the application. After the application
+         * is terminated, the Run method will return and the window will be closed.
+         */
+        void Quit();
+
+        /**
          * @brief Get the application skin.
          *
          * @return The application skin.
@@ -92,6 +100,7 @@ namespace SparkyStudios::UI::Pixel
         Application();
 
         bool _initialized;
+        bool _running;
         MainWindow* _mainWindow;
         RelativeToExecutableResourcePaths _paths;
 

@@ -110,14 +110,14 @@ namespace SparkyStudios::UI::Pixel
         InputHandler_Allegro inputHandler{};
         inputHandler.Initialize(_mainWindow->GetRootCanvas().get());
 
+        _running = true;
         ALLEGRO_EVENT ev;
-        bool shouldQuit = false;
-        while (!shouldQuit)
+        while (_running)
         {
             al_wait_for_event(gEventQueue, &ev);
 
             if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-                shouldQuit = true;
+                _running = false;
 
             // Process input events
             else if (inputHandler.ProcessMessage(ev))
@@ -148,6 +148,14 @@ namespace SparkyStudios::UI::Pixel
         return EXIT_SUCCESS;
     }
 
+    void Application::Quit()
+    {
+        if (_running)
+        {
+            _running = false;
+        }
+    }
+
     Skin* Application::GetSkin() const
     {
         return _skin;
@@ -160,6 +168,7 @@ namespace SparkyStudios::UI::Pixel
 
     Application::Application()
         : _initialized(false)
+        , _running(false)
         , _mainWindow(nullptr)
         , _paths()
         , _skin(nullptr)
