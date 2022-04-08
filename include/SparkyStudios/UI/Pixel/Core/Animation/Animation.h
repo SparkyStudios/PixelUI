@@ -14,8 +14,8 @@
 
 #pragma once
 
-#ifndef PIXEL_UI_BASEANIMATION_H
-#define PIXEL_UI_BASEANIMATION_H
+#ifndef PIXEL_UI_ANIMATION_H
+#define PIXEL_UI_ANIMATION_H
 
 #include <SparkyStudios/UI/Pixel/Core/Common.h>
 
@@ -42,12 +42,40 @@ namespace SparkyStudios::UI::Pixel
          */
         enum class TransitionFunction
         {
+            /**
+             * @brief Creates a custom animation transition function
+             * based on an one-dimensional bezier curve.
+             */
             Custom = -1,
+
+            /**
+             * @brief No transition is made. The animation starts at the end.
+             */
+            None,
+
+            /**
+             * @brief Linearly transition the animation from start to end.
+             */
             Linear,
-            None = Linear,
+
+            /**
+             * @brief Performs an `ease` CSS-like transition on the animation.
+             */
             Ease,
+
+            /**
+             * @brief Performs an `ease-in` CSS-like transition on the animation.
+             */
             EaseIn,
+
+            /**
+             * @brief Performs an `ease-out` CSS-like transition on the animation.
+             */
             EaseOut,
+
+            /**
+             * @brief Performs an `ease-in-out` CSS-like transition on the animation.
+             */
             EaseInOut,
         };
 
@@ -80,7 +108,7 @@ namespace SparkyStudios::UI::Pixel
              *
              * @return The animation progress percentage (in the range [0, 1]).
              */
-            PiTime Ease(PiTime t) const;
+            [[nodiscard]] PiTime Ease(PiTime t) const;
 
             /**
              * @brief The x coordinate of the second control point.
@@ -103,7 +131,7 @@ namespace SparkyStudios::UI::Pixel
             PiReal32 y2;
 
         private:
-            PiTime GetTFromX(PiReal64 x) const;
+            [[nodiscard]] PiTime GetTFromX(PiReal64 x) const;
 
             PiReal64 _samples[11];
         };
@@ -146,7 +174,8 @@ namespace SparkyStudios::UI::Pixel
          * @param ease The animation ease transition function.
          * @param loop Defines if the animation should loop.
          */
-        Animation(PiTime duration, PiTime delay = 0.0, TransitionFunction function = TransitionFunction::Linear, bool loop = false);
+        explicit Animation(
+            PiTime duration, PiTime delay = 0.0, TransitionFunction function = TransitionFunction::Linear, bool loop = false);
 
         virtual ~Animation() = default;
 
@@ -169,7 +198,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The animation transition curve.
          */
-        const Transition& GetTransition() const;
+        [[nodiscard]] const Transition& GetTransition() const;
 
         /**
          * @brief Check if the animation has started.
@@ -179,7 +208,7 @@ namespace SparkyStudios::UI::Pixel
         virtual bool Started();
 
         /**
-         * @brief Trigerred when the animation starts.
+         * @brief Triggered when the animation starts.
          */
         virtual void OnStart() = 0;
 
@@ -192,7 +221,7 @@ namespace SparkyStudios::UI::Pixel
         virtual void Run(PiTime percent) = 0;
 
         /**
-         * @brief Trigerred when the animation finishes.
+         * @brief Triggered when the animation finishes.
          */
         virtual void OnFinish() = 0;
 
@@ -254,7 +283,7 @@ namespace SparkyStudios::UI::Pixel
         PiTime m_delay;
 
         /**
-         * @brief The defined tramsition function.
+         * @brief The defined transition function.
          */
         TransitionFunction m_ease;
 
@@ -275,4 +304,4 @@ namespace SparkyStudios::UI::Pixel
 
 #endif // PI_ENABLE_ANIMATION
 
-#endif // PIXEL_UI_BASEANIMATION_H
+#endif // PIXEL_UI_ANIMATION_H

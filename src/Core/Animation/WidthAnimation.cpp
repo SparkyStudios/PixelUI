@@ -37,7 +37,7 @@ namespace SparkyStudios::UI::Pixel
     {
         const PiInt32 w = m_widget->Width();
         if (w < m_endWidth)
-            m_widget->SetWidth(m_startWidth + m_delta * percent);
+            m_widget->SetWidth(static_cast<PiInt32>(m_startWidth + m_delta * percent));
     }
 
     void WidthAnimation::OnFinish()

@@ -34,11 +34,11 @@ namespace SparkyStudios::UI::Pixel
             PiInt32 endHeight,
             PiTime duration,
             PiTime delay = 0.0,
-            TransitionFunction function = TransitionFunction::None);
+            TransitionFunction function = TransitionFunction::Linear);
 
         void OnStart() override;
 
-        void Run(PiTime percentage) override;
+        void Run(PiTime percent) override;
 
         void OnFinish() override;
 

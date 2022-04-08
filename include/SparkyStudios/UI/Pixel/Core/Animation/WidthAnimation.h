@@ -31,7 +31,7 @@ namespace SparkyStudios::UI::Pixel
             PiInt32 endWidth,
             PiTime duration,
             PiTime delay = 0.0,
-            TransitionFunction function = TransitionFunction::None);
+            TransitionFunction function = TransitionFunction::Linear);
 
         void OnStart() override;
 

@@ -37,7 +37,7 @@ namespace SparkyStudios::UI::Pixel
     {
         const PiInt32 h = m_widget->Height();
         if (h < m_endHeight)
-            m_widget->SetHeight(m_startHeight + m_delta * percent);
+            m_widget->SetHeight(static_cast<PiInt32>(m_startHeight + m_delta * percent));
     }
 
     void HeightAnimation::OnFinish()

@@ -22,22 +22,23 @@
 
 namespace SparkyStudios::UI::Pixel
 {
-    static Animation::WidgetMap gAnimatedWidgets = {};
-    static Animation::List gAnimationList = {};
+    static Animation::WidgetMap gAnimatedWidgets = {}; // NOLINT(cert-err58-cpp)
+    static Animation::List gAnimationList = {}; // NOLINT(cert-err58-cpp)
 
-    static Animation::Transition gLinearTransition = { 0.0f, 0.0f, 1.0f, 1.0f };
-    static Animation::Transition gEaseTransition = { 0.25f, 0.1f, 0.25f, 1.0f };
-    static Animation::Transition gEaseInTransition = { 0.42f, 0.0f, 1.0f, 1.0f };
-    static Animation::Transition gEaseOutTransition = { 0.0f, 0.0f, 0.58f, 1.0f };
-    static Animation::Transition gEaseInOutTransition = { 0.42f, 0.0f, 0.58f, 1.0f };
+    static const Animation::Transition gNoneTransition = { 1.0f, 1.0f, 1.0f, 1.0f }; // NOLINT(cert-err58-cpp)
+    static const Animation::Transition gLinearTransition = { 0.0f, 0.0f, 1.0f, 1.0f }; // NOLINT(cert-err58-cpp)
+    static const Animation::Transition gEaseTransition = { 0.25f, 0.1f, 0.25f, 1.0f }; // NOLINT(cert-err58-cpp)
+    static const Animation::Transition gEaseInTransition = { 0.42f, 0.0f, 1.0f, 1.0f }; // NOLINT(cert-err58-cpp)
+    static const Animation::Transition gEaseOutTransition = { 0.0f, 0.0f, 0.58f, 1.0f }; // NOLINT(cert-err58-cpp)
+    static const Animation::Transition gEaseInOutTransition = { 0.42f, 0.0f, 0.58f, 1.0f }; // NOLINT(cert-err58-cpp)
 
-    constexpr PiUInt32 kNewtonIterations = 4;
-    constexpr PiReal64 kNewtonMinSlope = 0.001;
-    constexpr PiReal64 kSubdivisionPrecision = 0.0000001;
-    constexpr PiUInt32 kSubdivisionMaxIterations = 10;
+    static constexpr PiUInt32 kNewtonIterations = 4;
+    static constexpr PiReal64 kNewtonMinSlope = 0.001;
+    static constexpr PiReal64 kSubdivisionPrecision = 0.0000001;
+    static constexpr PiUInt32 kSubdivisionMaxIterations = 10;
 
-    constexpr PiUInt32 kSplineTableSize = 11;
-    constexpr PiReal64 kSampleStepSize = 1.0 / (kSplineTableSize - 1.0);
+    static constexpr PiUInt32 kSplineTableSize = 11;
+    static constexpr PiReal64 kSampleStepSize = 1.0 / (kSplineTableSize - 1.0);
 
     static PiReal64 A(PiReal64 a1, PiReal64 a2)
     {
@@ -113,11 +114,35 @@ namespace SparkyStudios::UI::Pixel
         , y1(y1_)
         , x2(x2_)
         , y2(y2_)
+        , _samples()
     {
         for (PiUInt32 i = 0; i < kSplineTableSize; ++i)
         {
             _samples[i] = CalculateBezier(i * kSampleStepSize, x1, x2);
         }
+    }
+
+    PiTime Animation::Transition::Ease(PiTime t) const
+    {
+        // No transition
+        if (x1 == y1 && x2 == y2)
+        {
+            return 1.0;
+        }
+
+        // Linear transition
+        if (x1 == x2 && y1 == y2)
+        {
+            return LinearEasing(t);
+        }
+
+        // Don't waste time calculating extreme values.
+        if (t <= 0.0 || t >= 1.0)
+        {
+            return t;
+        }
+
+        return CalculateBezier(GetTFromX(t), y1, y2);
     }
 
     PiTime Animation::Transition::GetTFromX(PiReal64 x) const
@@ -151,22 +176,6 @@ namespace SparkyStudios::UI::Pixel
         }
     }
 
-    PiTime Animation::Transition::Ease(PiTime t) const
-    {
-        if (x1 == x2 && y1 == y2)
-        {
-            return LinearEasing(t);
-        }
-
-        // Don't waste time calculating extreme values.
-        if (t <= 0.0 || t >= 1.0)
-        {
-            return t;
-        }
-
-        return CalculateBezier(GetTFromX(t), y1, y2);
-    }
-
     void Animation::Add(Widget* widget, Animation* animation)
     {
         animation->m_widget = widget;
@@ -192,9 +201,9 @@ namespace SparkyStudios::UI::Pixel
                     continue;
                 }
 
-                Animation* animation = *it;
+                Animation* anim = *it;
+                delete anim;
                 it = gAnimationList.erase(it);
-                delete animation;
             }
 
             gAnimatedWidgets.erase(widget);
@@ -210,8 +219,8 @@ namespace SparkyStudios::UI::Pixel
 
             if (animation->Finished())
             {
-                it = gAnimationList.erase(it);
                 delete animation;
+                it = gAnimationList.erase(it);
             }
             else
             {
@@ -229,6 +238,7 @@ namespace SparkyStudios::UI::Pixel
         , m_ease(function)
         , m_customCurve(gLinearTransition)
         , m_loop(loop)
+        , m_widget(nullptr)
     {}
 
     void Animation::SetTransition(const Transition& curve)
@@ -248,6 +258,8 @@ namespace SparkyStudios::UI::Pixel
         {
         case TransitionFunction::Custom:
             return m_customCurve;
+        case TransitionFunction::None:
+            return gNoneTransition;
         default:
         case TransitionFunction::Linear:
             return gLinearTransition;
