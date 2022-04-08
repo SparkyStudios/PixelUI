@@ -17,12 +17,19 @@
 
 namespace SparkyStudios::UI::Pixel
 {
+    EventInfo::EventInfo(Widget* widget)
+        : source(widget)
+        , hookData(nullptr)
+    {}
+
     EventListener::EventListener()
         : _handlers()
     {}
 
     EventListener::~EventListener()
-    {}
+    {
+        _handlers.clear();
+    }
 
     void EventListener::AddCallback(EventHandler* handler, const EventCallback& callback, const EventData& packet)
     {

@@ -60,9 +60,7 @@ namespace SparkyStudios::UI::Pixel
      */
     struct EventInfo
     {
-        explicit EventInfo(Widget* widget = nullptr)
-            : source(widget)
-        {}
+        explicit EventInfo(Widget* widget = nullptr);
 
         /**
          * @brief The event source.

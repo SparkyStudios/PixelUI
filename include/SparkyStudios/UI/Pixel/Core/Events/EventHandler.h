@@ -31,6 +31,8 @@ namespace SparkyStudios::UI::Pixel
     class PI_EXPORT EventHandler
     {
     public:
+        using Listeners = std::list<EventListener*>;
+
         virtual ~EventHandler();
 
         /**
@@ -49,7 +51,7 @@ namespace SparkyStudios::UI::Pixel
     private:
         void CleanLinks();
 
-        std::list<EventListener*> _listeners;
+        Listeners _listeners;
     };
 
 } // namespace SparkyStudios::UI::Pixel
