@@ -352,7 +352,7 @@ namespace SparkyStudios::UI::Pixel
          * @param skinData The skin data.
          * @param renderer The renderer to use when drawing the skin.
          */
-        Skin(const Data& skinData, BaseRenderer* renderer = nullptr);
+        explicit Skin(const Data& skinData, BaseRenderer* renderer = nullptr);
 
         ~Skin();
 
@@ -375,7 +375,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The color data.
          */
-        virtual const Data& GetSkinData() const;
+        [[nodiscard]] virtual const Data& GetSkinData() const;
 
         /**
          * @brief Sets the renderer to use for drawing the skin.
@@ -389,7 +389,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The renderer.
          */
-        virtual BaseRenderer* GetRenderer() const;
+        [[nodiscard]] virtual BaseRenderer* GetRenderer() const;
 
         /**
          * @brief Set the default font to use for the skin.
@@ -403,7 +403,7 @@ namespace SparkyStudios::UI::Pixel
          *
          * @return The default font.
          */
-        virtual const Font& GetDefaultFont() const;
+        [[nodiscard]] virtual const Font& GetDefaultFont() const;
 
     protected:
         Font m_defaultFont;
@@ -565,7 +565,7 @@ namespace SparkyStudios::UI::Pixel
             Color(117, 133, 165, 255), // Normal Arrow Color
             Color(255, 255, 255, 125), // Disabled Arrow Color
             Color(24, 24, 24, 255), // Hovered Arrow Color
-            Color(255, 255, 255, 255), // Pressed Pressed Color
+            Color(255, 255, 255, 255), // Pressed Arrow Color
 
             // Background
             Color(14, 22, 36, 255), // Background Color
@@ -644,7 +644,7 @@ namespace SparkyStudios::UI::Pixel
             Color(255, 255, 255, 255), // Normal Arrow Color
             Color(255, 255, 255, 125), // Disabled Arrow Color
             Color(255, 255, 255, 255), // Hovered Arrow Color
-            Color(255, 255, 255, 255), // Pressed Pressed Color
+            Color(255, 255, 255, 255), // Pressed Arrow Color
             4, // Arrow Size
         },
         // Input

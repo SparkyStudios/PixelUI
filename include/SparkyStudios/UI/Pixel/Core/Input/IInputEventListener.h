@@ -30,19 +30,63 @@ namespace SparkyStudios::UI::Pixel
 
     typedef KeyPressMode MouseButtonPressMode;
 
+    /**
+     * @brief Interface for input event listeners.
+     */
     class IInputEventListener
     {
     public:
         virtual ~IInputEventListener() = default;
 
+        /**
+         * @brief Called when the mouse moves.
+         *
+         * @param x The new x position of the mouse.
+         * @param y The new y position of the mouse.
+         * @param deltaX The change in x position of the mouse.
+         * @param deltaY The change in y position of the mouse.
+         *
+         * @return true if the event was consumed, false otherwise.
+         */
         virtual bool OnMouseMove(PiInt32 x, PiInt32 y, PiInt32 deltaX, PiInt32 deltaY) = 0;
 
+        /**
+         * @brief Called when a mouse button is pressed.
+         *
+         * @param button The button that was pressed.
+         * @param pressMode The press mode of the button.
+         *
+         * @return true if the event was consumed, false otherwise.
+         */
         virtual bool OnMouseButton(MouseButton button, MouseButtonPressMode pressMode) = 0;
 
+        /**
+         * @brief Called when the mouse wheel is scrolled.
+         *
+         * @param x The amount the mouse wheel was scrolled in the x direction.
+         * @param y The amount the mouse wheel was scrolled in the y direction.
+         *
+         * @return true if the event was consumed, false otherwise.
+         */
         virtual bool OnMouseWheel(PiReal32 x, PiReal32 y) = 0;
 
+        /**
+         * @brief Called when a keyboard is special key is pressed.
+         *
+         * @param key The special key that was pressed.
+         * @param pressedMode The press mode of the key.
+         *
+         * @return true if the event was consumed, false otherwise.
+         */
         virtual bool OnSpecialKey(Key key, KeyPressMode pressedMode) = 0;
 
+        /**
+         * @brief Called when a character key is pressed.
+         *
+         * @param character The character that was pressed.
+         *
+         * @return true if the event was consumed, false otherwise.
+         */
         virtual bool OnCharacter(char character) = 0;
     };
 } // namespace SparkyStudios::UI::Pixel

@@ -41,7 +41,7 @@ namespace SparkyStudios::UI::Pixel
             : Margin(h, v, h, v)
         {}
 
-        Margin(PiInt32 all)
+        explicit Margin(PiInt32 all)
             : Margin(all, all)
         {}
 

@@ -21,6 +21,9 @@
 
 namespace SparkyStudios::UI::Pixel
 {
+    /**
+     * @brief Enumerates known keyboard keys.
+     */
     enum class Key : PiUInt32
     {
         Invalid = 0,
@@ -46,7 +49,6 @@ namespace SparkyStudios::UI::Pixel
         Command, // Mac command/clover
         MAX //!< number of keys
     };
-
 }
 
 #endif // PIXEL_UI_KEYBOARD_H

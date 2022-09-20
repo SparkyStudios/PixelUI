@@ -25,6 +25,9 @@ namespace SparkyStudios::UI::Pixel
 {
     class MainWindow;
 
+    /**
+     * @brief Enumerates known mouse buttons.
+     */
     enum class MouseButton : PiUInt32
     {
         Left,
@@ -32,6 +35,9 @@ namespace SparkyStudios::UI::Pixel
         Middle
     };
 
+    /**
+     * @brief Enumerates known mouse cursor states.
+     */
     enum class CursorStyle
     {
         Arrow = 0,
@@ -59,15 +65,33 @@ namespace SparkyStudios::UI::Pixel
         MAX
     };
 
+    /**
+     * @brief The cursor class. Manage the mouse cursor by updating his position and state.
+     */
     class Cursor
     {
     public:
         explicit Cursor(const MainWindow* mainWindow);
 
+        /**
+         * @brief Update the cursor style.
+         *
+         * @param style The new cursor style.
+         */
         void ApplyStyle(CursorStyle style);
 
-        Point GetPosition() const;
+        /**
+         * @brief Gets the cursor position.
+         *
+         * @return The current cursor position.
+         */
+        [[nodiscard]] Point GetPosition() const;
 
+        /**
+         * @brief Sets the cursor position.
+         *
+         * @param position The new cursor position.
+         */
         void SetPosition(const Point& position);
 
     private:
