@@ -57,14 +57,16 @@ foreach(component ${ALLEGRO_COMPONENTS})
 endforeach()
 
 find_path(Allegro5_INCLUDE_DIR
-  NAMES "allegro5/allegro.h" "allegro5/allegro5.h"
-)
+        NAMES "allegro5/allegro.h" "allegro5/allegro5.h"
+        )
 
 target_include_directories(${PROJECT_N}
-  PRIVATE ${Allegro5_INCLUDE_DIR}
-  PUBLIC include src
-)
+        PRIVATE ${Allegro5_INCLUDE_DIR}
+        PUBLIC include src
+        )
 
-file(GLOB PI_SAMPLES_DIRECTORIES samples/**)
-
-add_subdirectory(${PI_SAMPLES_DIRECTORIES})
+option(BUILD_SAMPLES "Build samples" OFF)
+if (BUILD_SAMPLES)
+  file(GLOB PI_SAMPLES_DIRECTORIES samples/**)
+  add_subdirectory(${PI_SAMPLES_DIRECTORIES})
+endif ()
