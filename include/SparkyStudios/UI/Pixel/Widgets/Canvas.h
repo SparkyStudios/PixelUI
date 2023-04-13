@@ -193,7 +193,7 @@ namespace SparkyStudios::UI::Pixel
 
         virtual void SetDrawBackground(bool shouldDraw)
         {
-            m_drawBackground = shouldDraw;
+            m_bDrawBackground = shouldDraw;
         }
 
     protected:

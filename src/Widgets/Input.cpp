@@ -110,7 +110,7 @@ namespace SparkyStudios::UI::Pixel
         if (!IsTextAllowed(text, m_cursorPos))
             return;
 
-        PiInt32 insertSize = static_cast<PiInt32>(text.size());
+        auto insertSize = static_cast<PiInt32>(text.size());
         if (m_maxTextLength > kNoMaxLength && TextLength() + insertSize > m_maxTextLength)
         {
             insertSize = m_maxTextLength - TextLength();
@@ -504,7 +504,7 @@ namespace SparkyStudios::UI::Pixel
         const bool drawHovered = IsHovered();
 
         // Background
-        if (m_drawBackground)
+        if (m_bDrawBackground)
         {
             const PiUInt32 offset = skinData.Input.borderWidth;
 

@@ -32,7 +32,7 @@ namespace SparkyStudios::UI::Pixel
 
     void BaseShape::DrawBackground(bool value)
     {
-        m_drawBackground = value;
+        m_bDrawBackground = value;
     }
 
     void BaseShape::SetBackgroundColor(const Color& color)

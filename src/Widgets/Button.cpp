@@ -22,7 +22,7 @@ namespace SparkyStudios::UI::Pixel
     const PiString Button::RightClickEvent = "Button::Events::RightClick";
 
     PI_WIDGET_CONSTRUCTOR(Button)
-    , m_pressed(false), m_centerImage(false), m_toggleStatus(false) //, m_image(nullptr)
+    , m_bToggle(false), m_pressed(false), m_centerImage(false), m_toggleStatus(false) //, m_image(nullptr)
     {
         const Skin::Data& skinData = GetSkin()->GetSkinData();
 
@@ -59,7 +59,7 @@ namespace SparkyStudios::UI::Pixel
                 SetTextColorOverride(Colors::Transparent);
         }
 
-        if (!m_drawBackground)
+        if (!m_bDrawBackground)
             return;
 
         Rect rect = RenderBounds();

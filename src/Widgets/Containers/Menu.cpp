@@ -199,7 +199,7 @@ namespace SparkyStudios::UI::Pixel
                 menuHeight += child->Height() + child->GetMargin().top + child->GetMargin().bottom;
         }
 
-        // if tall menu descends off screen then clamp to screen height
+        // if tall menu descends off-screen then clamp to screen height
         if (Y() + menuHeight > GetCanvas()->Height())
         {
             const int dy = GetCanvas()->Height() - Y();

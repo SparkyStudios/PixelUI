@@ -484,7 +484,7 @@ namespace SparkyStudios::UI::Pixel
             renderer->SetRenderOffset(Point(0, 0));
             renderer->SetScale(GetScale());
 
-            if (m_drawBackground)
+            if (m_bDrawBackground)
             {
                 renderer->SetDrawColor(m_backgroundColor);
                 renderer->DrawFilledRect(RenderBounds(), Size(0, 0));

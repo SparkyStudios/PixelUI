@@ -52,7 +52,7 @@ namespace SparkyStudios::UI::Pixel
         , m_restrictToParent(false)
         , m_mouseInputEnabled(true)
         , m_keyboardInputEnabled(false)
-        , m_drawBackground(true)
+        , m_bDrawBackground(true)
         , m_needsLayout(true)
     {
         SetParent(parent);

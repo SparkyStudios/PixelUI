@@ -85,7 +85,7 @@ public:                                                                         
  */
 #define PI_WIDGET_INLINE(_this_name_, _base_name)                                                                                          \
     PI_WIDGET(_this_name_, _base_name)                                                                                                     \
-        : ParentClass(parent, name)
+        : ParentClass(parent, std::move(name))
 
 /**
  * @brief Generates the widget constructor in a cpp file.
@@ -1224,7 +1224,7 @@ namespace SparkyStudios::UI::Pixel
         /**
          * @brief Defines if this widget should draw background.
          */
-        bool m_drawBackground;
+        bool m_bDrawBackground;
 
         /**
          * @brief Defines if this widget needs a layout pass.

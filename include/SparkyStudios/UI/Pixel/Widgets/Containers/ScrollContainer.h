@@ -34,9 +34,9 @@ namespace SparkyStudios::UI::Pixel
 
         virtual void AutoHideBar(bool value);
 
-        virtual bool CanScrollX() const;
+        [[nodiscard]] virtual bool CanScrollX() const;
 
-        virtual bool CanScrollY() const;
+        [[nodiscard]] virtual bool CanScrollY() const;
 
         virtual void ScrollToTop();
 

@@ -221,7 +221,7 @@ namespace SparkyStudios::UI::Pixel
         const bool drawHovered = IsHovered();
 
         // Background
-        if (m_drawBackground)
+        if (m_bDrawBackground)
         {
             const PiUInt32 offset = skinData.Input.borderWidth;
 

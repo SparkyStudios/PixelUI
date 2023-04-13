@@ -206,7 +206,7 @@ namespace SparkyStudios::UI::Pixel
                 pi_cast<DownArrow*>(m_arrow)->SetBackgroundColor(skinData.ComboBox.arrowColorNormal);
         }
 
-        if (!m_drawBackground)
+        if (!m_bDrawBackground)
             return;
 
         Rect rect = RenderBounds();

@@ -34,7 +34,7 @@ set(ALLEGRO_COMPONENTS
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake")
 
-# Search fo Allgro5 libraries
+# Search fo Allegro5 libraries
 find_package(unofficial-allegro5 COMPONENTS ${ALLEGRO_COMPONENTS} REQUIRED)
 
 file(GLOB_RECURSE SRCS
@@ -57,13 +57,13 @@ foreach(component ${ALLEGRO_COMPONENTS})
 endforeach()
 
 find_path(Allegro5_INCLUDE_DIR
-        NAMES "allegro5/allegro.h" "allegro5/allegro5.h"
-        )
+  NAMES "allegro5/allegro.h" "allegro5/allegro5.h"
+)
 
 target_include_directories(${PROJECT_N}
-        PRIVATE ${Allegro5_INCLUDE_DIR}
-        PUBLIC include src
-        )
+  PRIVATE ${Allegro5_INCLUDE_DIR}
+  PUBLIC include src
+)
 
 option(BUILD_SAMPLES "Build samples" OFF)
 if (BUILD_SAMPLES)

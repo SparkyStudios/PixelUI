@@ -73,7 +73,7 @@ namespace SparkyStudios::UI::Pixel
 
             m_label = new Button(this);
             m_label->SetPadding(Padding(0));
-            m_label->m_drawBackground = false;
+            m_label->m_bDrawBackground = false;
             m_label->SetDock(Alignment::Fill);
             m_label->SetAlignment(Alignment::Left);
             m_label->On(Button::ClickEvent)->Add(m_checkbox, &CheckBox::OnPress);
